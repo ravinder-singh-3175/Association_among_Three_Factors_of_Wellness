@@ -1,362 +1,428 @@
-# Analytics Approach
+# 04 — Analytics Approach
 
-## 4.1 Overview
+## Project Title
 
-The **Mental Wellness & Nutrition Project** will use the four major types of Data Analytics introduced in the Fundamentals of Data Science course:
+**Association among 3 factors of wellness**
 
-1. Descriptive Analytics
-2. Diagnostic Analytics
-3. Predictive Analytics
-4. Prescriptive Analytics
+## 1. Overview
 
-These analytics types represent different levels of understanding that can progressively be developed from the collected college-student wellness data.
+This project uses descriptive statistics, exploratory data analysis, hypothesis testing, correlation, regression, Principal Component Analysis (PCA), and Linear Discriminant Analysis (LDA) to investigate associations among mental, physical, and nutritional wellbeing among university students.
 
-The project currently focuses on **mental wellness as the primary area of interest**, while nutrition intake, physical activity/mobility, sleep, and other available lifestyle characteristics are investigated as related factors.
+The analytical approach is primarily **exploratory and statistical**, supported by mathematical implementations of multivariate techniques.
 
-The general progression is:
-
-```text
-Collected Student Data
-          ↓
-Descriptive Analytics
-"What is happening?"
-          ↓
-Diagnostic Analytics
-"What patterns and relationships exist?"
-          ↓
-Predictive Analytics
-"What can reasonably be predicted?"
-          ↓
-Prescriptive Analytics
-"What useful wellness guidance can be provided?"
-```
-
-The project is currently at an early stage. Therefore, these sections describe the intended analytical framework rather than claiming that all analyses have already been performed.
+The study uses 100 self-reported survey responses collected between 14 and 18 August 2026.
 
 ---
 
-## 4.2 Descriptive Analytics
+## 2. Data Preparation
 
-### Question
+Two stages of preprocessing were performed.
 
-> **What is happening in the collected student wellness data?**
+| Stage | Dataset Dimensions | Work Completed |
+|---|---|---|
+| Original survey | 100 × 22 | Primary data collection |
+| Initial cleaning | 100 × 25 | Sleep, entertainment screen time, water intake |
+| Extended cleaning | 100 × 42 | Additional lifestyle features, dietary encoding, activity classification |
 
-Descriptive Analytics will be used to summarize and understand the characteristics of the surveyed college students.
+### Techniques Applied
 
-Potential analysis may include:
+- Rule-based numerical parsing using regular expressions.
+- Standardization of numerical measurements.
+- Range midpoint conversion.
+- IQR-based outlier treatment for selected variables.
+- Median imputation.
+- Validation of categorical responses.
+- Multi-hot encoding of seven dietary categories.
+- Classification of ambiguous physical-activity responses.
+- Free-text normalization.
 
-### Mental Wellness
-
-* Distribution of mental-wellness-related responses
-* Frequency of different self-reported wellness experiences
-* Variation in relevant wellness indicators
-
-### Nutrition
-
-* Dietary habits
-* Meal patterns
-* Food-related behaviours
-* Hydration-related patterns, where available
-
-### Physical Activity and Mobility
-
-* Physical activity levels
-* Exercise or movement frequency
-* Sedentary behaviour
-* Mobility-related characteristics represented in the dataset
-
-### Lifestyle and Context
-
-Where available, additional analysis may examine:
-
-* Sleep patterns
-* Daily routine
-* Academic or lifestyle characteristics
-* Relevant demographic/contextual variables
-
-Potential techniques may include:
-
-* Frequency tables
-* Percentages
-* Measures of central tendency
-* Measures of variability
-* Summary statistics
-* Histograms
-* Bar charts
-* Box plots
-* Other appropriate visualizations
-
-The exact descriptive analysis will be determined after the survey dataset is formally inspected.
+The initial cleaned dataset was used for the main statistical analyses, PCA, LDA, and eight-dimensional data-quality assessment. The extended dataset was separately validated.
 
 ---
 
-## 4.3 Diagnostic Analytics
+## 3. Exploratory Data Analysis
 
-### Question
+EDA was performed to understand the distribution and relationships of the collected variables.
 
-> **What patterns, relationships, or factors are associated with what we observe?**
+### Descriptive Statistics
 
-Diagnostic Analytics will investigate relationships among the collected variables.
+The following measures were calculated:
 
-This is particularly important because the project aims to understand how nutrition, physical activity, and other lifestyle characteristics may be associated with mental wellness.
+- Mean
+- Median
+- Standard deviation
+- Minimum and maximum
+- Frequency distributions
+- Percentages
 
-Potential questions include:
+### Selected Results
 
-* Are particular dietary habits associated with differences in self-reported mental wellness?
-* Is physical activity associated with mental-wellness indicators?
-* Are sleep patterns associated with mental wellness?
-* Are nutrition habits associated with physical activity patterns?
-* Do particular lifestyle behaviours frequently appear together?
-* Do different groups of students show different wellness patterns?
+| Variable | Mean | Standard Deviation |
+|---|---:|---:|
+| Sleep duration | 5.87 hours | 1.51 |
+| Entertainment screen time | 3.78 hours | 1.86 |
+| Water intake | 2.79 litres | 1.02 |
+| Composite stress score | 15.72 | 4.56 |
+| Evening energy | 2.87 | 1.08 |
+| Digestive discomfort | 2.35 | 1.12 |
 
-Potential analytical methods may eventually include:
-
-* Cross-tabulation
-* Correlation analysis
-* Covariance
-* Group comparisons
-* Statistical hypothesis testing
-* Appropriate visual analysis
-* Association analysis
-
-The specific techniques used will depend on:
-
-* Variable types
-* Data distributions
-* Sample characteristics
-* Statistical assumptions
-* Questions being investigated
-
-### Important Analytical Boundary
-
-> **Association does not automatically imply causation.**
-
-For example, if students reporting a particular dietary behaviour also report different mental-wellness outcomes, the project cannot automatically conclude that the dietary behaviour caused the difference.
-
-The result should instead be described as an observed relationship or statistical association unless an appropriate research design supports causal inference.
+The composite stress score was calculated by summing five 1–5 mental-wellbeing responses, producing a score between 5 and 25. It is an exploratory project-specific index, not a validated clinical scale.
 
 ---
 
-## 4.4 Predictive Analytics
+## 4. Statistical Hypothesis Testing
 
-### Question
+Four statistical procedures were implemented at a significance level of 5% (\(\alpha = 0.05\)).
 
-> **What meaningful outcome can be predicted from the available data?**
+### 4.1 F-Test — Comparison of Variances
 
-Predictive Analytics may later be used to investigate whether combinations of student lifestyle characteristics contain useful information for predicting an appropriate outcome.
+**Objective:** Compare entertainment screen-time variances between male and female respondents.
 
-A conceptual pipeline could be:
+Formula:
 
-```text
-Student Characteristics
-        ↓
-Selected / Engineered Features
-        ↓
-Predictive Model
-        ↓
-Predicted Outcome
-        ↓
-Model Evaluation
-```
+\[
+F=\frac{s_1^2}{s_2^2}
+\]
 
-Potential predictor domains may include:
+**Reported results:**
 
-* Nutrition-related variables
-* Physical activity variables
-* Sleep and routine
-* Other lifestyle characteristics
-* Relevant contextual variables
+- F-statistic: 1.783
+- Degrees of freedom: (56, 42)
+- p-value: approximately 0.052
 
-However, the **final prediction target has not yet been selected**.
+**Interpretation:** The null hypothesis was not rejected at the 5% significance level. The result does not establish that the population variances are identical.
 
-The project will first:
+### 4.2 Independent Two-Sample t-Test
 
-1. Understand and clean the dataset.
-2. Perform Exploratory Data Analysis.
-3. Investigate statistical relationships.
-4. Determine whether an appropriate prediction problem exists.
-5. Select suitable features and target variables.
-6. Compare appropriate models.
-7. Evaluate their performance and limitations.
+**Objective:** Compare mean entertainment screen time between male and female respondents.
 
-The project will therefore **not select a machine-learning algorithm or target variable in advance simply to create a predictive model**.
+The reported analysis used a pooled-variance t-test.
 
-Any predictive output related to mental wellness will remain non-diagnostic and will not be presented as a clinical assessment.
+\[
+t=\frac{\bar{x}_1-\bar{x}_2}
+{s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}
+\]
 
----
+**Reported results:**
 
-## 4.5 Prescriptive Analytics
+- Male mean: 4.1754 hours
+- Female mean: 3.2605 hours
+- t-statistic: 2.606
+- Degrees of freedom: 98
+- p-value: approximately 0.011
 
-### Question
+**Interpretation:** The sample showed a statistically significant difference in mean entertainment screen time between the two gender groups.
 
-> **What useful action or general wellness guidance may be suggested based on the analysis?**
+### 4.3 One-Sample Z-Test
 
-Prescriptive Analytics represents a later stage of the project.
+**Objective:** Compare average sleep duration against a reference value of 7 hours.
 
-The eventual goal is to explore whether analytical findings, identified patterns, and student wellness profiles can support personalized and understandable **general wellness guidance**.
+The project used a large-sample Z approximation:
 
-A conceptual pipeline may be:
+\[
+Z=\frac{\bar{x}-\mu_0}{s/\sqrt{n}}
+\]
 
-```text
-Student Information
-        ↓
-Data Analysis / Profile
-        ↓
-Relevant Patterns
-        ↓
-Recommendation Logic
-        ↓
-Explainable General Wellness Guidance
-```
+**Reported results:**
 
-Potential guidance may relate to:
+- Sample mean: 5.87 hours
+- Reference mean: 7 hours
+- Absolute test statistic: approximately 7.47
+- p-value: less than 0.001
 
-* Nutrition and dietary habits
-* Physical activity
-* Sleep and routine
-* General lifestyle behaviours that may support wellness
+**Interpretation:** The reported sample mean was significantly below the 7-hour reference.
 
-The recommendation mechanism has **not yet been finalized**.
+Because the population standard deviation was unknown, the calculation is described as a large-sample approximation rather than an exact population-standard-deviation Z-test.
 
-It may eventually use a combination of:
+### 4.4 Chi-Square Test of Independence
 
-* Statistical findings
-* Identified student profiles
-* Data-driven patterns
-* Recommendation techniques
-* Carefully selected general wellness knowledge
+**Objective:** Examine the association between gender and meal regularity.
 
-Any external knowledge used for recommendations will need to come from appropriate and credible sources.
+Formula:
 
-Recommendations will remain educational and wellness-oriented rather than medical or clinical.
+\[
+\chi^2=\sum\frac{(O-E)^2}{E}
+\]
+
+**Reported results:**
+
+- Chi-square statistic: 9.95
+- Degrees of freedom: 2
+- p-value: approximately 0.007
+- Cramér's V: 0.32
+
+**Interpretation:** Gender and meal regularity were statistically associated in the collected sample. This does not establish causation.
 
 ---
 
-## 4.6 Relationship Between the Four Analytics Types
+## 5. Correlation Analysis
 
-The four analytics types are connected rather than independent.
+Pearson correlation was used to examine linear relationships among selected numerical variables.
 
-For example:
+\[
+r=\frac{\operatorname{Cov}(X,Y)}{s_Xs_Y}
+\]
 
-```text
-DESCRIPTIVE
-Students show different nutrition,
-activity and wellness patterns.
-        ↓
-DIAGNOSTIC
-Certain lifestyle variables appear
-associated with particular wellness patterns.
-        ↓
-PREDICTIVE
-Selected variables may contain useful
-information for predicting an appropriate
-non-clinical outcome.
-        ↓
-PRESCRIPTIVE
-The resulting analysis may help generate
-personalized general wellness insights.
-```
+### Selected Findings
 
-Each stage depends on the quality and validity of the previous stages.
+| Variable Pair | Correlation |
+|---|---:|
+| Sleep duration and evening energy | +0.28 |
+| Stress score and evening energy | −0.33 |
+| Entertainment screen time and stress score | +0.18 |
+| Water intake and evening energy | +0.20 |
+| Stress score and digestive discomfort | +0.23 |
 
-Prescriptive recommendations should therefore not be developed before the underlying data and analytical relationships have been adequately understood.
+These correlations indicate weak or modest linear relationships.
+
+Correlation does not establish causation.
 
 ---
 
-## 4.7 Cross-Domain Analysis
+## 6. Simple Linear Regression
 
-An important characteristic of this project is that mental wellness, nutrition, and physical activity will not be studied only as isolated topics.
+**Objective:** Examine the relationship between sleep duration and evening physical energy.
 
-The project will also investigate their possible relationships.
+The regression model was:
 
-Conceptually:
+\[
+\hat{Y}=b_0+b_1X
+\]
 
-```text
-                 Mental Wellness
-                   /          \
-                  /            \
-                 /              \
-          Nutrition ---------- Physical
-            Intake             Activity
-                  \            /
-                   \          /
-                 Lifestyle /
-               Contextual Factors
-```
+The fitted equation was:
 
-This integrated perspective may allow the project to identify patterns that would not be visible when each domain is analyzed independently.
+\[
+\hat{Y}=1.697+0.1998X
+\]
 
-The exact relationships investigated will depend on the variables available in the collected dataset.
+Where:
 
----
+- \(X\) represents sleep duration in hours.
+- \(\hat{Y}\) represents predicted evening-energy rating.
+- \(b_0\) is the intercept.
+- \(b_1\) is the slope.
 
-## 4.8 Student Wellness Profiles
+### Results
 
-As the project progresses, analytics may also be used to explore broader student wellness profiles.
+| Metric | Value |
+|---|---:|
+| Correlation coefficient | 0.280 |
+| Coefficient of determination (R²) | 0.078 |
+| Slope | 0.1998 |
+| p-value | 0.005 |
 
-Rather than reducing every student to a simple label such as "healthy" or "unhealthy," the project may eventually represent students across multiple dimensions.
+**Interpretation:** One additional hour of reported sleep was associated with approximately a 0.20-point increase in predicted evening-energy rating.
 
-For example, a profile could conceptually contain information about:
+The model explained approximately 7.8% of the observed variation in evening energy.
 
-```text
-Mental Wellness
-Nutrition
-Physical Activity
-Sleep / Routine
-Other Relevant Lifestyle Factors
-```
-
-Statistical and unsupervised-learning techniques may later help investigate whether meaningful groups or patterns naturally emerge from these characteristics.
-
-These profiles would represent **data patterns**, not medical or psychological diagnoses.
+This represents a weak positive association, not a causal relationship.
 
 ---
 
-## 4.9 Explainability
+## 7. Data Quality Assessment
 
-Analytical results should be understandable.
+The initial cleaned dataset was assessed across eight dimensions:
 
-Where possible, the project should explain:
+| Dimension | Assessment |
+|---|---|
+| Completeness | 99.96% of cells populated |
+| Validity | Tested numerical, rating and categorical rules passed |
+| Consistency | Parsing and documented transformations checked |
+| Uniqueness | No exact duplicate response records detected |
+| Accuracy | Self-reported accuracy could not be independently verified |
+| Timeliness | August 2026 collection period |
+| Integrity | Basic structural checks passed |
+| Relevance | Selected analytical variables covered the intended domains |
 
-* What was observed
-* Which variables were involved
-* How strong or reliable the relationship appears to be
-* Which factors contributed to a prediction or profile
-* What limitations apply
-* Why a particular wellness insight or recommendation is being shown
-
-This is especially important because the project involves mental wellness and lifestyle information.
-
----
-
-## 4.10 Current Analytics Status
-
-At the current stage:
-
-### Established
-
-* The four analytics types have been mapped conceptually to the project.
-* Mental wellness is the primary area of interest.
-* Nutrition and physical activity/mobility are major related domains.
-* Primary survey data has been collected from approximately 100 college students.
-
-### Not Yet Performed
-
-* Formal Descriptive Analytics
-* Diagnostic Analytics
-* Statistical hypothesis testing
-* Predictive modeling
-* Student profile discovery
-* Prescriptive recommendation development
-
-These analyses will begin only after the collected survey dataset has been formally inspected, documented, and prepared.
+The extended dataset underwent additional validation for derived variables, dietary indicators, record identities and ambiguous activity measurements.
 
 ---
 
-## 4.11 Summary
+## 8. Principal Component Analysis
 
-The project's analytics framework can be summarized as:
+### Objective
 
-> **Describe the student population → investigate relationships → explore meaningful predictions → transform validated findings into understandable general wellness insights.**
+Reduce the dimensionality of selected numerical wellness variables while preserving as much variance as possible.
 
-This framework allows the project to progressively apply Data Science techniques while keeping mental wellness, nutrition, physical activity, and related lifestyle factors within one coherent analytical system.
+### Features
+
+PCA used ten numerical variables:
+
+- Five mental-wellbeing ratings.
+- Sleep duration.
+- Entertainment screen time.
+- Water intake.
+- Evening physical energy.
+- Digestive discomfort.
+
+### Mathematical Method
+
+**Step 1 — Standardization**
+
+\[
+z_{ij}=\frac{x_{ij}-\bar{x}_j}{s_j}
+\]
+
+**Step 2 — Covariance Matrix**
+
+\[
+C=\frac{Z^TZ}{n-1}
+\]
+
+**Step 3 — Eigenvalue Decomposition**
+
+\[
+Cv=\lambda v
+\]
+
+**Step 4 — Projection**
+
+\[
+T=ZW_k
+\]
+
+### Results
+
+| Metric | Result |
+|---|---:|
+| Original features | 10 |
+| Variance explained by PC1 | 30.911% |
+| Variance explained by first 2 PCs | 44.561% |
+| Variance explained by first 3 PCs | 55.930% |
+| Components required for at least 90% variance | 8 |
+| Variance retained by first 8 PCs | 92.730% |
+
+The mathematical implementation was verified against NumPy and scikit-learn.
+
+PCA was used for dimensionality reduction and exploration, not for predicting individual wellness outcomes.
+
+---
+
+## 9. Linear Discriminant Analysis
+
+### Objective
+
+Investigate whether selected lifestyle variables could distinguish two exploratory stress-frequency categories.
+
+### Target Definition
+
+The `stress_anxious` response was used to define:
+
+- Class 0: Ratings 1–3.
+- Class 1: Ratings 4–5.
+
+These are project-defined categories, not clinical labels.
+
+### Predictor Variables
+
+- Sleep duration
+- Entertainment screen time
+- Water intake
+- Evening energy
+- Digestive discomfort
+
+### Mathematical Method
+
+LDA was implemented using class means and scatter matrices.
+
+Within-class scatter:
+
+\[
+S_W=\sum_c\sum_{x\in c}(x-\mu_c)(x-\mu_c)^T
+\]
+
+Between-class scatter:
+
+\[
+S_B=\sum_cn_c(\mu_c-\mu)(\mu_c-\mu)^T
+\]
+
+The discriminant direction was calculated to maximize the ratio of between-class to within-class variation.
+
+### Evaluation
+
+The dataset was divided into 75 training and 25 testing observations.
+
+Outlier boundaries, imputation values and standardization parameters were fitted using training data and applied to test data.
+
+| Metric | Result |
+|---|---:|
+| Manual LDA accuracy | 68% |
+| scikit-learn accuracy | 68% |
+| Prediction agreement | 100% |
+| Balanced accuracy | 53.31% |
+| Higher-stress class recall | 12.5% |
+
+Confusion matrix:
+
+\[
+\begin{bmatrix}
+16 & 1\\
+7 & 1
+\end{bmatrix}
+\]
+
+Although overall accuracy was 68%, the model correctly identified only one of eight higher-stress-frequency test observations.
+
+The LDA experiment therefore demonstrated the mathematical method but did not produce a reliable classification model.
+
+---
+
+## 10. Data Visualizations
+
+The project used several visualizations to communicate distributions, group comparisons and associations.
+
+| Visualization | Purpose |
+|---|---|
+| IQR boxplots | Identify potential outliers |
+| Living-arrangement bar chart | Examine sample composition |
+| Meal-regularity grouped bar chart | Compare dietary patterns by gender |
+| Responses-per-day line chart | Examine survey collection timing |
+| Stress-by-academic-year line chart | Compare average stress scores |
+| Correlation heatmap | Display pairwise linear relationships |
+| Screen-time boxplot | Compare distributions by gender |
+| Stress-by-living-arrangement boxplot | Compare stress distributions |
+| Regression scatter plot | Visualize sleep–energy association |
+| PCA variance plots | Examine explained variance |
+| PCA projection plot | Visualize principal-component scores |
+| LDA projection histogram | Examine exploratory class separation |
+
+These visualizations support interpretation but do not establish causal relationships.
+
+---
+
+## 11. Evaluation and Limitations
+
+### Main Findings
+
+- Average reported sleep duration was 5.87 hours.
+- Male respondents reported higher mean entertainment screen time than female respondents.
+- Gender and meal regularity showed a statistical association.
+- Sleep duration had a weak positive relationship with evening energy.
+- Stress score and evening energy showed a negative correlation.
+- PCA demonstrated dimensionality reduction.
+- LDA showed limited higher-stress-frequency classification performance.
+
+### Limitations
+
+- The sample contained only 100 self-selected respondents.
+- Survey measurements were self-reported.
+- The study was cross-sectional.
+- Some physical-activity measurements had ambiguous units.
+- Median imputation and midpoint conversion introduced assumptions.
+- Some analyses treated ordinal ratings numerically.
+- The exploratory LDA model was not suitable for individual screening.
+
+The findings are limited to the collected sample and should not be interpreted as medical or causal conclusions.
+
+---
+
+## 12. Conclusion
+
+The project combined exploratory data analysis, statistical hypothesis testing, correlation, regression, data-quality assessment, PCA and LDA to investigate associations among mental, physical and nutritional wellbeing.
+
+The mathematical implementations and statistical evaluations demonstrated practical application of Data Science concepts.
+
+The results identified several weak or modest associations within the collected sample while highlighting the importance of data quality, preprocessing decisions and cautious interpretation.
+
+The project is intended for academic research and learning rather than clinical assessment or individual wellness prediction.
