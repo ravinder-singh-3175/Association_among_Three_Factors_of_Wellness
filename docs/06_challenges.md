@@ -1,437 +1,420 @@
-# Project Challenges
+# 06 — Project Challenges and Solutions
 
-## 6.1 Overview
+## Project Title
 
-The **Mental Wellness & Nutrition Project** uses real survey data collected from college students to investigate relationships among mental wellness, nutrition, physical activity/mobility, and other lifestyle factors.
+**Association among 3 factors of wellness**
 
-Working with real-world wellness data introduces several technical, statistical, ethical, and project-management challenges.
+## 1. Introduction
 
-Recognizing these challenges early is important because the quality of the final analysis depends not only on the algorithms used, but also on the quality of the data, assumptions, methodology, and interpretation.
+During the development of this project, several challenges were encountered in data collection, preprocessing, statistical analysis, feature engineering, and model evaluation.
 
----
+These challenges arose primarily because the dataset contained self-reported survey responses with inconsistent numerical formats, ambiguous measurement units, categorical variables, and free-text answers.
 
-## 6.2 Sample Size
-
-The project currently has approximately **100 survey responses**.
-
-This provides an initial dataset for analysis, but the sample size may limit:
-
-* Statistical power
-* Reliability of subgroup comparisons
-* Complexity of models that can be trained
-* Generalizability of findings
-* Stability of clustering or other pattern-discovery techniques
-
-The suitability of the sample size will be considered separately for each analytical task.
-
-Additional responses may be collected if required and feasible.
+This document records the major challenges, the methods used to address them, and the limitations that remain.
 
 ---
 
-## 6.3 Sampling Bias
+## 2. Data Collection Challenges
 
-The survey is being distributed among college students, and the respondents may not represent the wider college-student population.
+### Challenge 1 — Limited Sample Size
 
-Potential sources of sampling bias may include:
+The survey collected 100 responses from university students.
 
-* Students from particular courses or programs being overrepresented
-* Unequal representation of demographic groups
-* Responses being concentrated within a particular institution or social network
-* Voluntary participation influencing who chooses to respond
+**Problem:** The sample may not adequately represent the broader university student population.
 
-Therefore, conclusions from the project should be interpreted primarily in the context of the surveyed sample.
+**Approach:** The study was treated as exploratory and cross-sectional. Findings were interpreted as associations within the collected sample.
 
----
+**Limitation:** Results cannot automatically be generalized to all university students.
 
-## 6.4 Self-Reported Data
+### Challenge 2 — Self-Reported Measurements
 
-The project relies primarily on information reported by participants themselves.
+Students reported their own sleep duration, screen time, physical activity, nutrition habits, and mental-wellbeing experiences.
 
-Self-reported data can be affected by:
+**Problem:** Responses may contain recall errors, estimation errors, or subjective interpretations.
 
-* Recall errors
-* Different interpretations of questions
-* Social desirability bias
-* Inaccurate estimation of habits
-* Unintentional incorrect responses
-* Participants choosing responses they consider more socially acceptable
+**Approach:** Data validity and consistency checks were performed where possible.
 
-This is particularly relevant for questions involving mental wellness, nutrition, sleep, and physical activity.
-
-The project will acknowledge these limitations when interpreting results.
+**Limitation:** Actual response accuracy could not be independently verified.
 
 ---
 
-## 6.5 Data Quality
+## 3. Data Cleaning Challenges
 
-Survey datasets may contain quality issues such as:
+### Challenge 3 — Inconsistent Numerical Formats
 
-* Missing responses
-* Duplicate records
-* Inconsistent answers
-* Unexpected values
-* Incorrect data types
-* Rare categories
-* Ambiguous responses
-* Outliers or unusual response combinations
+Several survey questions allowed students to enter numerical information as free text.
 
-A structured data-quality assessment will therefore be required before formal analysis.
+Examples included:
 
-Raw data will be preserved, while cleaning and transformation steps will be documented separately.
+- `7 hr`
+- `8-9hrs`
+- `4 hours 30 mins`
+- `2-3 litres`
 
----
+**Problem:** These values could not be used directly for numerical analysis.
 
-## 6.6 Questionnaire Limitations
+**Solution:** Rule-based parsing was implemented using Python and regular expressions.
 
-The quality of the analysis depends partly on the questions included in the survey.
+Numerical values were extracted, units were standardized, and ranges were converted into midpoint estimates.
 
-Potential limitations include:
+For a range with endpoints \(a\) and \(b\):
 
-* Important factors not being measured
-* Questions being too broad
-* Limited response options
-* Different interpretations among respondents
-* Multiple concepts being represented by a small number of questions
-* Survey length affecting response quality
+\[
+x_{\text{mid}}=\frac{a+b}{2}
+\]
 
-The project will analyze the data that has actually been collected and will avoid claiming that unmeasured characteristics have been assessed.
+**Limitation:** Midpoint conversion loses information about the original range.
 
----
+### Challenge 4 — Missing and Unusable Responses
 
-## 6.7 Mental-Wellness Interpretation
+Some respondents entered values such as:
 
-Mental wellness is the project's primary area of interest, but survey responses should not automatically be interpreted as clinical indicators.
+- `No idea`
+- `Don't know`
+- `Not specific time`
+- Unrelated text
 
-A participant reporting particular experiences does not by itself establish the presence of:
+**Problem:** Such responses could not always be interpreted as valid numerical measurements.
 
-* Depression
-* Anxiety disorders
-* Other psychological conditions
+**Solution:** Unusable values were represented as missing values (`NaN`).
 
-The project will therefore focus on **self-reported mental-wellness patterns** rather than clinical diagnosis.
+Median imputation was applied to selected variables during initial cleaning.
 
-Any scores or derived indicators created later must have a clear analytical justification and should not be presented as diagnostic instruments unless they originate from an appropriately validated methodology and are used correctly.
+During extended cleaning, uncertain academic screen-time and sitting-duration values were preserved as missing rather than automatically imputed.
 
----
+### Challenge 5 — Outlier Detection and Treatment
 
-## 6.8 Nutrition Interpretation
+Some numerical responses were unusually distant from the majority of observations.
 
-Nutrition-related survey responses provide information about reported dietary behaviours but may not provide a complete assessment of nutritional status.
+**Problem:** Extreme values could influence descriptive statistics and subsequent analysis.
 
-The dataset may not contain clinical information such as:
+**Solution:** The initial cleaning stage applied the Interquartile Range (IQR) method.
 
-* Laboratory measurements
-* Diagnosed deficiencies
-* Detailed nutrient quantities
-* Complete dietary records
-* Medical dietary requirements
+\[
+IQR=Q_3-Q_1
+\]
 
-Therefore, the project should distinguish between:
+\[
+\text{Lower Fence}=Q_1-1.5(IQR)
+\]
 
-> **Reported nutrition/dietary behaviour**
+\[
+\text{Upper Fence}=Q_3+1.5(IQR)
+\]
 
-and
+The method flagged:
 
-> **Clinical nutritional status**
+- One sleep-duration value of 1 hour.
+- Three water-intake values of 6, 6, and 8 litres.
 
-The project will primarily analyze the former.
+These values were replaced with missing values and subsequently median-imputed.
 
----
+**Limitation:** Statistical outliers are not necessarily incorrect measurements.
 
-## 6.9 Missing Data
-
-Some survey questions may contain missing or incomplete responses.
-
-Different approaches may eventually be considered depending on the variable and amount of missingness, including:
-
-* Retaining missing values
-* Removing particular observations where justified
-* Removing unsuitable variables
-* Appropriate imputation techniques
-
-No single missing-data strategy will automatically be applied to every variable.
-
-The reason for each major treatment decision should be documented.
+During extended cleaning, unusual values were generally retained or flagged rather than automatically replaced.
 
 ---
 
-## 6.10 Outliers and Unusual Responses
+## 4. Physical Activity Challenges
 
-Some responses may appear substantially different from the majority of observations.
+### Challenge 6 — Mixed Measurement Units
 
-However, an unusual value is not automatically an error.
+The physical-activity question accepted responses in different units.
 
-The project will distinguish between:
+Examples:
 
-* Data-entry errors
-* Impossible values
-* Valid but uncommon observations
-* Potentially interesting unusual patterns
+- `10000 steps`
+- `30 minutes`
+- `5 km`
+- `8000`
+- `60`
 
-Outliers will therefore be investigated before being removed or transformed.
+**Problem:** Step counts, walking duration, and walking distance represent different measurements and cannot be combined directly into one numerical variable.
 
-Later in the project, anomaly-detection techniques may also be explored where appropriate.
+**Solution:** Three separate derived columns were created:
+
+- `daily_steps`
+- `walking_minutes`
+- `walking_km`
+
+Responses with explicit units were processed separately from those with missing or ambiguous units.
+
+### Challenge 7 — Ambiguous Activity Responses
+
+Many respondents entered numbers without specifying whether they represented steps or minutes.
+
+**Problem:** Automatically assigning units could introduce incorrect measurements.
+
+**Solution:** Additional fields were created:
+
+- `activity_inferred_value`
+- `activity_inferred_unit`
+- `activity_status`
+
+The inference process classified responses into probable steps, probable minutes, unknown, and ambiguous categories.
+
+### Activity Classification Results
+
+| Classification | Responses |
+|---|---:|
+| Confirmed steps | 22 |
+| Confirmed walking minutes | 21 |
+| Confirmed distance | 1 |
+| Probable steps | 30 |
+| Probable minutes | 16 |
+| Unknown | 8 |
+| Ambiguous | 2 |
+| **Total** | **100** |
+
+Here, *confirmed* indicates that the parser recognized an explicit measurement unit, not that the respondent's actual activity was independently verified.
+
+### Challenge 8 — Special Cases and Parsing Errors
+
+One response, `10thoudand steps`, was initially interpreted incorrectly as 10 steps.
+
+**Solution:** The identified spelling error was corrected to 10,000 steps.
+
+Two responses containing `10k+` were flagged as lower-bound measurements rather than treated as exact step counts.
+
+**Remaining limitation:** Some activity responses contain uncertain units, approximate ranges, or unusual values. These were retained with their limitations documented.
 
 ---
 
-## 6.11 Feature Selection and Construction
+## 5. Dietary Data Challenges
 
-The questionnaire may contain multiple variables describing related aspects of wellness and lifestyle.
+### Challenge 9 — Multi-Select Categorical Responses
 
-Challenges may include:
+The dietary question allowed students to select multiple food categories.
 
-* Redundant variables
-* Highly related features
-* Irrelevant variables
-* Categorical encoding
-* Selecting useful predictors
-* Constructing meaningful derived features
+**Problem:** A single response could contain several categories, making direct numerical analysis difficult.
 
-Any composite indicator or wellness-related score created from multiple responses should have a clear rationale.
-
-Features will not be combined arbitrarily merely to simplify modeling.
-
----
-
-## 6.12 Association vs Causation
-
-A major analytical challenge is avoiding unsupported causal interpretation.
-
-Because the initial dataset is primarily observational and survey-based, relationships found between variables generally represent **associations**.
+**Initial issue:** Splitting responses at every comma incorrectly divided category descriptions containing commas inside parentheses.
 
 For example:
 
-> A relationship between dietary behaviour and mental wellness does not automatically prove that the dietary behaviour caused the observed mental-wellness difference.
+`High-Protein items (Eggs, Meat, Paneer, Pulses)`
 
-Other variables may contribute to the relationship, and the direction of influence may not be identifiable from the available data.
+**Solution:** The original dietary categories were identified and encoded using seven binary indicator columns.
 
-The project will clearly distinguish between:
+### Dietary Categories
 
-* Correlation
-* Association
-* Prediction
-* Causation
+| Category | Students |
+|---|---:|
+| Carbohydrate-rich foods | 60 |
+| Dietary supplements | 18 |
+| High-protein foods | 32 |
+| Balanced home/mess meals | 73 |
+| Fast food/junk food | 44 |
+| Fruits/vegetables | 33 |
+| Sugary/caffeinated drinks | 29 |
 
----
+**Encoding method:** Multi-hot encoding.
 
-## 6.13 Confounding Factors
+Each feature contains:
 
-Mental wellness and lifestyle behaviours may be influenced by many factors.
+- `1` — Category selected.
+- `0` — Category not selected.
 
-Potential confounding or contextual variables could include factors represented in the dataset such as:
+Multiple features can have a value of 1 for the same respondent.
 
-* Sleep
-* Academic routine
-* Demographic characteristics
-* Physical activity
-* Other lifestyle behaviours
-
-There may also be important factors that were not measured by the questionnaire.
-
-This limitation must be considered when interpreting observed relationships.
+The corrected seven-category encoding was verified to contain only binary values.
 
 ---
 
-## 6.14 Statistical Assumptions
+## 6. Free-Text Processing Challenges
 
-Different statistical methods rely on different assumptions.
+### Challenge 10 — Unstructured Emotional-Wellbeing Responses
 
-Before applying a statistical test or model, the project should consider factors such as:
+The survey included an open-ended question asking students to describe factors affecting their emotional wellbeing.
 
-* Variable type
-* Distribution
-* Independence
-* Sample size
-* Variance
-* Group sizes
-* Other method-specific assumptions
+**Problem:** Responses contained varied wording, capitalization, and spacing.
 
-A statistical technique should not be used simply because it appears in the syllabus.
+**Solution:** Basic text normalization was performed using:
 
-The available data and analytical question must justify its use.
+- Lowercase conversion.
+- Leading and trailing whitespace removal.
+- Repeated whitespace normalization.
 
----
+The original text was preserved.
 
-## 6.15 Multiple Comparisons
-
-As the number of variables increases, the number of possible relationships that can be tested also increases.
-
-Testing many relationships can increase the probability of finding apparently significant results by chance.
-
-Therefore, later statistical analysis should:
-
-* Begin with meaningful research questions
-* Avoid unnecessary hypothesis testing
-* Interpret p-values carefully
-* Consider appropriate multiple-comparison procedures where required
+**Limitation:** Text normalization does not perform sentiment analysis or automatically extract reliable psychological categories.
 
 ---
 
-## 6.16 Model Selection
+## 7. Statistical Analysis Challenges
 
-The course introduces multiple machine-learning algorithms.
+### Challenge 11 — Selecting Appropriate Statistical Tests
 
-A major challenge will be selecting models appropriate to:
+Different research questions involved different types of variables.
 
-* The available sample size
-* Feature types
-* Target variable
-* Analytical objective
-* Interpretability requirements
+**Problem:** Applying an inappropriate statistical test could produce misleading conclusions.
 
-Multiple algorithms may be experimentally compared where appropriate.
+**Approach:** Four procedures were selected according to their research objectives:
 
-The final system does not need to contain every algorithm tested during the project.
+| Test | Application |
+|---|---|
+| F-test | Comparison of entertainment screen-time variances by gender |
+| Independent two-sample t-test | Comparison of mean entertainment screen time by gender |
+| One-sample Z-test approximation | Comparison of mean sleep duration with 7 hours |
+| Chi-square test | Association between gender and meal regularity |
 
----
+The reported tests were interpreted at a 5% significance level.
 
-## 6.17 Overfitting and Data Leakage
+**Limitation:** Statistical conclusions depend on assumptions such as independence, distributional suitability, and measurement properties.
 
-With a relatively small dataset, complex models may learn patterns specific to the collected sample rather than generalizable relationships.
+### Challenge 12 — Correlation Versus Causation
 
-Potential risks include:
+The analysis identified associations among selected wellness variables.
 
-* Overfitting
-* Improper train/test separation
-* Feature leakage
-* Target leakage
-* Performing preprocessing using information from evaluation data
-* Excessive model tuning on a small test set
+**Problem:** Correlations may be incorrectly interpreted as causal relationships.
 
-Proper evaluation procedures will be required once modeling begins.
+**Approach:** Findings were described as statistical associations.
 
----
+For example, the correlation between sleep duration and evening energy was approximately \(r=0.28\).
 
-## 6.18 Class Imbalance
-
-If a future classification target is created or selected, its categories may not contain similar numbers of observations.
-
-Class imbalance can affect model training and evaluation.
-
-If this issue occurs, appropriate techniques and evaluation metrics will be considered.
-
-Class balance will not be assumed before the actual target variable is identified.
+**Limitation:** The cross-sectional survey design does not establish whether one variable causes changes in another.
 
 ---
 
-## 6.19 Clustering and Profile Interpretation
+## 8. Data Quality Assessment Challenges
 
-Unsupervised-learning techniques may later be used to investigate possible student wellness profiles.
+### Challenge 13 — Defining and Measuring Data Quality
 
-However, clusters produced by an algorithm do not automatically represent meaningful real-world groups.
+Data quality cannot be determined solely by counting missing values.
 
-Challenges include:
+**Solution:** Eight dimensions were assessed:
 
-* Selecting appropriate features
-* Choosing the number of clusters
-* Scaling variables
-* Comparing clustering techniques
-* Evaluating cluster quality
-* Interpreting discovered groups responsibly
+1. Completeness
+2. Validity
+3. Consistency
+4. Uniqueness
+5. Accuracy
+6. Timeliness
+7. Integrity
+8. Relevance
 
-Any identified cluster will be treated as a **data-derived pattern**, not a medical or psychological category.
+The initial cleaned dataset had approximately 99.96% populated cells.
 
----
+However, this result did not establish that all responses were accurate or that every collected variable was fully standardized.
 
-## 6.20 Recommendation Safety
-
-A future version of the project may provide personalized general wellness insights.
-
-This introduces additional responsibility.
-
-Recommendations should:
-
-* Remain within general wellness boundaries
-* Be explainable
-* Avoid diagnosis
-* Avoid medical treatment advice
-* Avoid therapeutic dietary prescriptions
-* Avoid unsupported claims
-* Use appropriate and credible knowledge sources where external guidance is required
-
-The recommendation system should also be capable of acknowledging when the available data is insufficient to provide a meaningful personalized suggestion.
+**Limitation:** Some dimensions, particularly the accuracy of self-reported measurements, could not be independently verified.
 
 ---
 
-## 6.21 Privacy and Data Protection
+## 9. PCA Implementation Challenges
 
-The dataset contains information related to student wellness and lifestyle.
+### Challenge 14 — Different Measurement Scales
 
-Even if the dataset does not contain direct identifiers, combinations of variables may potentially reveal information about individuals.
+The selected PCA features included variables measured on different numerical scales.
 
-The project should therefore follow principles such as:
+**Problem:** Features with larger numerical variance could disproportionately influence the principal components.
 
-* Collect only information relevant to the project
-* Avoid unnecessary personal identifiers
-* Store raw data responsibly
-* Avoid publishing identifiable individual responses
-* Use anonymized or appropriately de-identified data for analysis where possible
-* Restrict unnecessary exposure of sensitive responses
+**Solution:** The ten selected features were standardized before PCA.
 
-Public GitHub repositories require particular caution.
+The mathematical implementation included covariance calculation, eigenvalue decomposition, explained variance, and projection.
 
-**Raw identifiable or sensitive survey responses should not be uploaded publicly.**
+**Result:** Eight principal components retained approximately 92.73% of total variance.
 
----
+The results were verified against NumPy and scikit-learn.
 
-## 6.22 Ethical Interpretation
-
-Mental-wellness and nutrition data can easily be oversimplified or stigmatized.
-
-The project should avoid language that labels students as:
-
-* "Mentally unhealthy"
-* "Bad eaters"
-* "Unfit"
-* "Problem students"
-
-Analytical outputs should use neutral and descriptive terminology.
-
-The goal is to understand patterns and support wellness awareness, not to judge participants.
+**Limitation:** Retaining variance does not guarantee improved predictive performance or clinical interpretability.
 
 ---
 
-## 6.23 Reproducibility
+## 10. LDA Implementation Challenges
 
-As the project becomes more complex, analyses must remain reproducible.
+### Challenge 15 — Defining Classes and Avoiding Data Leakage
 
-Potential challenges include:
+LDA requires predefined class labels.
 
-* Different dataset versions
-* Manual preprocessing
-* Undocumented transformations
-* Changing feature definitions
-* Multiple experimental models
-* Inconsistent notebook execution
+**Problem:** The survey did not contain independently validated clinical stress categories.
 
-DataOps and MLOps practices will progressively be introduced to improve reproducibility and organization.
+**Solution:** Two exploratory stress-frequency classes were created using the `stress_anxious` response:
+
+- Class 0: Ratings 1–3.
+- Class 1: Ratings 4–5.
+
+The target-defining variable was excluded from the predictor features.
+
+Preprocessing parameters were fitted using training data and applied to the test set.
+
+### Challenge 16 — Imbalanced Classification Performance
+
+The LDA model achieved:
+
+| Metric | Result |
+|---|---:|
+| Test accuracy | 68% |
+| Balanced accuracy | 53.31% |
+| Higher-stress recall | 12.5% |
+| Manual vs scikit-learn agreement | 100% |
+
+**Problem:** Overall accuracy concealed weak detection of the higher-stress-frequency class.
+
+Only one of eight higher-stress test observations was correctly classified.
+
+**Conclusion:** LDA was successfully demonstrated as a mathematical and computational method, but its predictive performance was insufficient for individual screening.
 
 ---
 
-## 6.24 Scope Management
+## 11. Documentation and Reproducibility Challenges
 
-The FDS syllabus contains a broad range of topics.
+### Challenge 17 — Managing Multiple Dataset Versions
 
-There is a risk of turning the project into a collection of unrelated demonstrations simply to use every technique.
+The project evolved through several stages.
 
-The project will instead attempt to connect each relevant concept to the central analytical story:
+| Dataset | Dimensions |
+|---|---|
+| Original survey | 100 × 22 |
+| Initial cleaned dataset | 100 × 25 |
+| Extended cleaned dataset | 100 × 42 |
 
-> **Understanding college-student mental wellness and its relationships with nutrition, physical activity, and lifestyle through Data Science.**
+**Problem:** Multiple versions could create confusion about which data were used for different analyses.
 
-Techniques that are useful experimentally but unsuitable for the final system may still be studied and documented without being forced into the application.
+**Solution:** Dataset versions were documented separately, and original response columns were retained for traceability.
+
+The initial cleaned dataset was used for the principal statistical analyses, PCA, LDA, and eight-dimensional data-quality assessment.
+
+The extended dataset was subjected to additional validation.
+
+### Challenge 18 — Reproducibility and Project Organization
+
+**Problem:** The project involved multiple notebooks, datasets, reports, and supporting files.
+
+**Approach:**
+
+- Organized project documentation.
+- Preserved original datasets.
+- Used GitHub for version control.
+- Maintained separate notebooks for different analytical tasks.
+- Compared mathematical implementations with library results.
+- Documented assumptions, results, and limitations.
 
 ---
 
-## 6.25 Current Challenges
+## 12. Lessons Learned
 
-At the present stage, the most immediate challenges are:
+The project demonstrated several important principles:
 
-1. Formally understanding the collected survey dataset.
-2. Documenting each variable.
-3. Assessing the quality of approximately 100 collected responses.
-4. Protecting participant privacy.
-5. Determining how well the questionnaire represents the intended project domains.
-6. Avoiding premature conclusions about nutrition and mental wellness.
-7. Preparing the project for future statistical analysis.
+1. Data cleaning requires understanding the meaning of values, not just converting text into numbers.
+2. Missing values, invalid responses, and outliers are different problems.
+3. Preserving raw data supports traceability and reproducibility.
+4. Multi-select categorical responses require appropriate encoding.
+5. Ambiguous measurements should not be silently converted into exact values.
+6. Statistical methods must match the variables and research questions.
+7. Mathematical implementations help verify understanding of algorithms.
+8. Model accuracy alone is not sufficient for evaluating classification performance.
+9. Correlation does not establish causation.
+10. Documentation and validation are essential parts of a Data Science workflow.
 
-These challenges will be addressed progressively as the project moves into the data-understanding and data-preparation stages.
+---
+
+## 13. Conclusion
+
+The project encountered challenges involving inconsistent survey responses, mixed measurement units, outliers, categorical encoding, statistical assumptions, and multivariate analysis.
+
+These challenges were addressed through rule-based preprocessing, targeted outlier treatment, feature engineering, data-quality checks, mathematical implementations, and careful interpretation.
+
+Some limitations remain, particularly those related to self-reported measurements, sample representativeness, ambiguous activity units, and LDA classification performance.
+
+The completed work demonstrates how practical Data Science methods can be applied to investigate associations among mental, physical, and nutritional wellbeing in a university student sample.
