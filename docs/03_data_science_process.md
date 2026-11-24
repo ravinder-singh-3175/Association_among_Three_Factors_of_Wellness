@@ -1,420 +1,325 @@
-# Data Science Process
+# 03 — Data Science Process
 
-## 3.1 Overview
+## Project Title
 
-The **Mental Wellness & Nutrition Project** will follow an iterative Data Science process to investigate wellness and lifestyle patterns among college students.
+**Association among 3 factors of wellness**
 
-The project currently focuses on three major areas:
+## 1. Introduction
 
-* Mental wellness
-* Nutrition intake and dietary habits
-* Physical activity and mobility
+This project follows the **CRISP-DM (Cross-Industry Standard Process for Data Mining)** framework to investigate associations among mental, physical, and nutritional wellbeing among university students.
 
-Additional lifestyle and contextual variables, such as sleep and daily routine, may also be considered where they are available in the collected data.
+CRISP-DM provides a systematic approach to solving data-driven problems through six interconnected phases:
 
-Rather than treating Data Science as a single sequence of analysis and modeling steps, the project will progressively move through problem understanding, data collection, data preparation, analysis, modeling, evaluation, and eventual application development.
+1. Business Understanding
+2. Data Understanding
+3. Data Preparation
+4. Modelling
+5. Evaluation
+6. Deployment
 
-The process is **iterative**. Findings at later stages may require earlier decisions to be reconsidered.
-
----
-
-## 3.2 Problem Understanding
-
-The first stage is to clearly define the problem being investigated.
-
-The primary area of interest is **mental wellness among college students**.
-
-Nutrition intake and physical activity/mobility are major lifestyle domains whose relationships with mental wellness will be investigated using collected data.
-
-The central Data Science question is:
-
-> **How can Data Science be used to analyze mental wellness, nutrition intake, physical activity, and related lifestyle characteristics among college students in order to identify meaningful patterns and support personalized wellness insights?**
-
-At this stage, the project does not assume that one lifestyle factor directly causes another outcome.
-
-Instead, relationships and patterns will be investigated using appropriate analytical methods.
+The project applies these phases iteratively, allowing insights from data exploration and evaluation to guide preprocessing and analysis decisions.
 
 ---
 
-## 3.3 Data Collection
+## 2. Phase 1 — Business Understanding
 
-The project uses **primary survey data collected from college students**.
+### Problem Identification
 
-A questionnaire has been developed containing questions related to areas such as:
+University students may experience academic stress, irregular sleep patterns, prolonged screen exposure, inconsistent dietary habits, and varying levels of physical activity.
 
-* Mental wellness
-* Nutrition and dietary habits
-* Physical activity and mobility
-* Sleep and daily routine
-* Other relevant lifestyle or contextual characteristics
+The project investigates statistical relationships among these factors.
 
-Approximately **100 responses** have currently been collected.
+### Problem Statement
 
-The survey responses represent the project's initial real-world dataset.
+**How are mental, physical, and nutritional wellbeing factors associated among university students, and which lifestyle characteristics are related to higher reported stress and lower physical energy?**
 
-As development continues, the data-collection process will be documented, including:
+### Research Objectives
 
-* Questionnaire structure
-* Variables collected
-* Response formats
-* Data types
-* Data limitations
-* Privacy considerations
-* Potential sampling and response biases
+- Understand patterns in student wellness data.
+- Investigate relationships among lifestyle and wellbeing variables.
+- Apply statistical and multivariate analytical techniques.
+- Interpret results while acknowledging limitations.
+
+**Outcome:** The research problem, objectives, scope, and analytical direction were established.
 
 ---
 
-## 3.4 Data Understanding
+## 3. Phase 2 — Data Understanding
 
-Before performing statistical analysis or machine learning, the collected dataset must first be understood.
+### Data Collection
 
-This stage will involve examining:
+Primary data were collected using an online Google Form distributed among university students.
 
-* Number of observations
-* Number of variables
-* Meaning of each variable
-* Variable data types
-* Possible response categories
-* Missing values
-* Duplicate responses where relevant
-* Unusual or inconsistent values
-* Distribution of responses
-* Representation of different wellness domains
+| Attribute | Description |
+|---|---|
+| Total responses | 100 |
+| Original variables | 22 |
+| Collection period | 14–18 August 2026 |
+| Data source | Primary survey |
+| Dataset type | Cross-sectional |
+| Measurement method | Self-reported responses |
 
-A **data dictionary** will be developed to document each variable and its role.
+### Data Inspection
 
-Variables may be organized conceptually into:
+The dataset was examined to identify:
 
-```text id="r7ph1o"
-Student Survey Data
-        │
-        ├── Context / Demographic Variables
-        │
-        ├── Mental Wellness Variables
-        │
-        ├── Nutrition Variables
-        │
-        ├── Physical Activity / Mobility Variables
-        │
-        └── Other Lifestyle Variables
-```
+- Variable names and measurement scales.
+- Numerical, categorical, and free-text variables.
+- Missing and inconsistent responses.
+- Mixed measurement units.
+- Duplicate records.
+- Unusual values and possible outliers.
 
-The exact classification will be determined after formal inspection of the dataset.
+### Variable Classification
+
+Variables were classified using nominal, ordinal, interval, ratio, discrete, and continuous measurement concepts.
+
+The classification also distinguished structured, semi-structured, and unstructured responses.
+
+**Outcome:** The dataset structure and major data-quality challenges were identified.
 
 ---
 
-## 3.5 Data Preparation
+## 4. Phase 3 — Data Preparation
 
-Raw survey responses may not be immediately suitable for analysis.
+Data preparation was completed in two stages.
 
-The data-preparation stage may include:
+### 4.1 Initial Data Cleaning
 
-* Removing irrelevant technical fields where appropriate
-* Handling missing information
-* Checking duplicate or inconsistent records
-* Standardizing response formats
-* Encoding categorical responses
-* Correcting data-type inconsistencies
-* Detecting unusual values
-* Transforming variables where justified
-* Preparing analysis-ready datasets
+The initial cleaning stage involved:
 
-The project will preserve the distinction between:
+- Renaming long survey questions into shorter column names.
+- Inspecting missing values and duplicates.
+- Creating respondent identifiers.
+- Parsing sleep duration, entertainment screen time, and water intake.
+- Converting numerical ranges into midpoint values.
+- Applying IQR-based outlier treatment.
+- Using median imputation for selected numerical variables.
 
-```text id="k5zdb3"
-Raw Data
-    ↓
-Cleaned Data
-    ↓
-Processed / Analysis-Ready Data
-```
+**Output:** Initial cleaned dataset containing 100 rows and 25 columns.
 
-Raw responses should remain unchanged so that data-processing steps can be reproduced and verified.
+### 4.2 Extended Data Cleaning
 
----
+Extended cleaning addressed additional variables that remained in mixed formats.
 
-## 3.6 Exploratory Data Analysis
+**Academic Screen Time**
 
-Exploratory Data Analysis will be used to understand the structure and characteristics of the collected dataset.
+Converted numerical responses, hour/minute formats, and ranges into standardized hours.
 
-Potential analysis may include:
+Result: 97 valid values and 3 missing values.
 
-* Summary statistics
-* Frequency distributions
-* Histograms
-* Bar charts
-* Box plots
-* Scatterplots
-* Correlation analysis
-* Comparison of relevant groups
-* Examination of relationships among wellness variables
+**Consecutive Sitting Duration**
 
-EDA may be performed separately for:
+Standardized hours, minutes, and numerical ranges.
 
-### Mental Wellness
+Result: 94 valid values and 6 missing values.
 
-To understand patterns in self-reported mental-wellness variables.
+**Physical Activity**
 
-### Nutrition
+Separated activity measurements into:
 
-To understand dietary and nutrition-related behaviours.
+- Daily step counts.
+- Walking duration in minutes.
+- Walking distance in kilometres.
 
-### Physical Activity and Mobility
+Additional inference and status fields were created to preserve uncertainty in responses without explicit units.
 
-To understand movement, activity, and mobility-related patterns.
+**Dietary Encoding**
 
-### Cross-Domain Analysis
+Seven dietary categories were converted into binary indicator features using multi-hot encoding.
 
-To explore possible relationships among mental wellness, nutrition, physical activity, sleep, and other relevant lifestyle characteristics.
+**Free-Text Normalization**
 
-Exploratory findings will guide later statistical and modeling decisions.
+Emotional-wellbeing responses were normalized through lowercasing, whitespace trimming, and removal of repeated spaces.
 
----
+### 4.3 Validation
 
-## 3.7 Statistical Analysis
+The extended cleaning process included:
 
-As probability and statistics concepts are introduced in the course, appropriate methods will be applied to the collected dataset.
+- Numerical range checks.
+- Duplicate respondent-ID checks.
+- Dietary binary-feature validation.
+- Original-column preservation checks.
+- Correction of a known step-count parsing error.
+- Identification of ambiguous and lower-bound activity responses.
 
-Potential areas include:
-
-* Probability and distributions
-* Measures of expectation and variation
-* Covariance
-* Correlation
-* Sampling concepts
-* Point and interval estimation
-* Confidence intervals
-* Hypothesis testing
-* t-tests
-* Chi-square tests
-* Z-tests
-* F-tests
-* ANOVA
-
-Statistical tests will only be used when their assumptions and the available data make them appropriate.
-
-The project will distinguish between **statistical association and causal inference**.
+**Output:** Extended cleaned dataset containing 100 rows and 42 columns.
 
 ---
 
-## 3.8 Feature Engineering
+## 5. Phase 4 — Modelling
 
-After the original variables are understood, additional features may be constructed where they have meaningful interpretations.
+The project implemented statistical and multivariate techniques to investigate the collected data.
 
-Potential examples could include combined or derived representations of:
+### 5.1 Exploratory Data Analysis
 
-* Dietary behaviour
-* Physical activity
-* Sleep/routine
-* Mental-wellness responses
-* Broader lifestyle patterns
+EDA included:
 
-These are only conceptual possibilities at the current stage.
+- Frequency distributions.
+- Descriptive statistics.
+- Group comparisons.
+- Boxplots and bar charts.
+- Correlation heatmaps.
+- Scatter plots and survey-response visualizations.
 
-No composite wellness score or derived feature will be created simply for convenience. Its construction should have a clear analytical justification.
+### 5.2 Statistical Hypothesis Testing
 
-Feature extraction, construction, selection, learning, and dimensionality-reduction techniques will be explored as the relevant course concepts are introduced.
+Four statistical procedures were implemented:
 
----
+| Test | Purpose |
+|---|---|
+| F-test | Compare entertainment screen-time variances by gender |
+| Independent two-sample t-test | Compare mean entertainment screen time by gender |
+| One-sample Z-test | Compare mean sleep duration with a 7-hour reference |
+| Chi-square test | Examine association between gender and meal regularity |
 
-## 3.9 Modeling
+### 5.3 Correlation and Regression
 
-Machine-learning models will be introduced only after the dataset has been prepared and an appropriate analytical problem has been identified.
+Pearson correlation analysis was used to investigate linear associations among selected numerical variables.
 
-Potential modeling tasks may include:
+Simple linear regression examined the relationship between sleep duration and evening physical energy.
 
-### Supervised Learning
+### 5.4 Principal Component Analysis
 
-If a meaningful target variable can be identified, supervised methods may be investigated for classification or regression.
+PCA was implemented mathematically using:
 
-Multiple suitable algorithms may be compared rather than selecting a model in advance.
+- Feature standardization.
+- Covariance matrix calculation.
+- Eigenvalue and eigenvector decomposition.
+- Explained-variance calculation.
+- Projection onto principal components.
 
-### Unsupervised Learning
+Ten numerical features were reduced to eight principal components while retaining approximately 92.73% of total variance.
 
-Clustering and related techniques may be used to investigate whether meaningful wellness or lifestyle profiles naturally occur among students.
+### 5.5 Linear Discriminant Analysis
 
-### Dimensionality Reduction
+LDA was implemented using:
 
-Dimensionality-reduction methods may later be explored to understand complex relationships among multiple variables and support visualization or modeling.
+- Exploratory stress-frequency classes.
+- Class-wise means.
+- Within-class and between-class scatter matrices.
+- Discriminant directions.
+- Classification and evaluation.
 
-### Association Analysis
-
-Association-rule techniques may be explored where the representation of the data makes such analysis meaningful.
-
-### Anomaly Detection
-
-Anomaly-detection techniques may be investigated to identify unusual data patterns or observations where appropriate.
-
-The exact modeling strategy will be determined by the data and project requirements.
-
----
-
-## 3.10 Evaluation
-
-Analytical methods and models will be evaluated using techniques appropriate to their purpose.
-
-Evaluation may include:
-
-* Statistical significance and uncertainty
-* Model performance metrics
-* Comparison between alternative models
-* Clustering evaluation
-* Interpretability
-* Stability of results
-* Practical usefulness
-* Limitations and possible bias
-
-A model will not be considered useful only because it produces a high numerical performance score.
-
-Results must also be interpretable and appropriate for the project's wellness context.
+The manual implementation was compared with scikit-learn.
 
 ---
 
-## 3.11 Personalized Wellness Insights
+## 6. Phase 5 — Evaluation
 
-Later stages of the project may use analytical findings, identified patterns, and student profiles to generate personalized **general wellness insights**.
+### Statistical Evaluation
 
-Potential areas of guidance may include:
+The project interpreted statistical-test results using test statistics, p-values, and the selected significance level.
 
-* Nutrition and dietary habits
-* Physical activity
-* Sleep and routine
-* General lifestyle behaviours that may support mental wellness
+Correlation and regression results were evaluated in terms of direction, strength, and explained variance.
 
-The recommendation mechanism will only be designed after the relevant analytical foundations have been established.
+### Data Quality Assessment
 
-Recommendations will remain:
+Eight data-quality dimensions were assessed:
 
-* Educational
-* Explainable
-* General wellness-oriented
-* Non-diagnostic
-* Non-clinical
+1. Completeness
+2. Validity
+3. Consistency
+4. Uniqueness
+5. Accuracy
+6. Timeliness
+7. Integrity
+8. Relevance
 
----
+The assessment was performed on the initial cleaned dataset, while the extended dataset underwent additional structural and transformation checks.
 
-## 3.12 Application Development
+### PCA Evaluation
 
-Once the analytical components are sufficiently developed and evaluated, they may be integrated into an application.
+The manual PCA implementation was verified against NumPy and scikit-learn.
 
-A future application may allow a student to:
+Eight components retained 92.73% of the original variance.
 
-```text id="9md00p"
-Provide Wellness Information
-          ↓
-Receive Profile Analysis
-          ↓
-View Relevant Patterns
-          ↓
-Understand Important Factors
-          ↓
-Receive General Wellness Insights
-```
+### LDA Evaluation
 
-The exact application design and technology stack have not yet been finalized.
+| Metric | Result |
+|---|---|
+| Test accuracy | 68% |
+| Balanced accuracy | 53.31% |
+| Manual vs scikit-learn prediction agreement | 100% |
+| Higher-stress class recall | 12.5% |
 
-The Data Science analysis will be developed before committing to the final application architecture.
+Although the manual and library implementations agreed, the model showed weak sensitivity to the higher-stress-frequency class.
+
+Therefore, LDA was treated as an exploratory academic experiment rather than a reliable student-risk prediction system.
 
 ---
 
-## 3.13 DataOps and MLOps Perspective
+## 7. Phase 6 — Deployment and Delivery
 
-DataOps and introductory MLOps concepts provide a framework for thinking about how the project can remain organized and reproducible as it grows.
+For this academic project, deployment refers to delivering the completed analytical work and supporting documentation.
 
-Relevant practices may eventually include:
+The project deliverables include:
 
-* Dataset versioning
-* Separation of raw and processed data
-* Reproducible preprocessing
-* Organized analytical notebooks
-* Reusable source code
-* Model versioning
-* Experiment tracking
-* Documentation of analytical decisions
-* Reproducible evaluation
-* Consistent project structure
+- Original survey data and classification records.
+- Initial and extended data-cleaning workflows.
+- Exploratory analysis and statistical implementations.
+- Data Quality Assessment, PCA, and LDA notebooks.
+- Visualizations and analytical findings.
+- Final project report.
+- Technical documentation.
+- GitHub repository containing the project files and development history.
 
-These practices will be introduced progressively rather than implementing unnecessary infrastructure at the beginning of the project.
+**No production website, mobile application, or clinical prediction system was deployed.**
 
 ---
 
-## 3.14 Iterative Nature of the Project
+## 8. Iterative Nature of the Process
 
-The Data Science process is not strictly linear.
+Although CRISP-DM is presented in six phases, the project did not follow a strictly linear workflow.
 
 For example:
 
-```text id="h7wzt5"
-Problem Understanding
-        ↓
-Data Collection
-        ↓
-Data Understanding
-        ↓
-Data Preparation
-        ↓
-Analysis
-        ↓
-Modeling
-        ↓
-Evaluation
-        ↓
-Insights / Application
-        │
-        └──────────────► Revisit Earlier Stages
-```
+- Initial data inspection identified inconsistent numerical responses.
+- Cleaning revealed additional data-quality challenges.
+- Extended preprocessing introduced new analytical features.
+- Model evaluation highlighted limitations in classification performance.
+- Final documentation incorporated the findings and limitations of earlier stages.
 
-Exploratory analysis may reveal problems with collected variables.
-
-Statistical analysis may suggest new features.
-
-Model evaluation may show that a target or feature is unsuitable.
-
-Recommendation development may reveal the need for additional information.
-
-Therefore, earlier stages may be revisited whenever justified.
+This iterative approach allowed the project to evolve as new problems and requirements were identified.
 
 ---
 
-## 3.15 Relationship with Data Science Methodologies
+## 9. Project Outcomes
 
-The project will use concepts from Data Science process methodologies taught in the course to guide its development.
+The completed workflow demonstrates how Data Science can be used to investigate relationships among student wellness factors.
 
-**CRISP-DM** provides a useful general structure through problem understanding, data understanding, data preparation, modeling, evaluation, and eventual deployment.
+The project produced:
 
-**SEMMA** provides another perspective particularly relevant to sampling, exploration, modification, modeling, and assessment.
+- A documented preprocessing workflow.
+- Descriptive and inferential statistical results.
+- Visual representations of observed relationships.
+- Data-quality evaluation.
+- Mathematical implementations of PCA and LDA.
+- Technical reports and reproducibility documentation.
 
-Other lifecycle methodologies introduced in the course will be studied and mapped to the project as they are covered.
-
-The project will not treat these methodologies as competing checklists. Instead, their relevant ideas will be used to understand and organize the development process.
+The findings remain exploratory and specific to the collected sample.
 
 ---
 
-## 3.16 Current Project Stage
+## 10. Limitations
 
-The project is currently transitioning from **problem understanding and data collection** into **data understanding**.
+- The dataset contains 100 self-selected respondents.
+- Responses are self-reported and may contain measurement errors.
+- The survey is cross-sectional.
+- Some physical-activity responses have uncertain measurement units.
+- Midpoint conversion and median imputation introduce assumptions.
+- Likert-scale responses are ordinal, although some analyses treat them numerically.
+- The LDA model has limited classification performance.
+- Statistical associations do not establish causal relationships.
 
-Completed or currently established:
+The project is non-clinical and must not be used to diagnose or assess individual students' mental-health conditions.
 
-* Revised project problem defined
-* College students identified as the target population
-* Mental wellness established as the primary area of interest
-* Nutrition and physical activity/mobility established as major related lifestyle domains
-* Survey questionnaire developed
-* Approximately 100 responses collected
-* Initial repository structure established
+---
 
-Not yet completed:
+## 11. Conclusion
 
-* Formal dataset inspection
-* Data dictionary
-* Data cleaning
-* Exploratory Data Analysis
-* Statistical analysis
-* Feature engineering
-* Machine-learning modeling
-* Student profile discovery
-* Recommendation system
-* Final application
+The CRISP-DM framework provided a systematic foundation for the project, connecting problem identification, data understanding, preprocessing, statistical analysis, evaluation, and documentation.
 
-The immediate next Data Science task will be to formally inspect and document the collected survey dataset before beginning analysis.
+Through this workflow, the project investigated associations among mental, physical, and nutritional wellbeing using self-collected university student data.
+
+The completed work demonstrates practical application of Data Science concepts while recognizing the limitations of the dataset and analytical methods.
