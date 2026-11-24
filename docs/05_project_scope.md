@@ -1,390 +1,250 @@
-# Project Scope
+# 05 — Project Scope
 
-## 5.1 Overview
+## Project Title
 
-The **Mental Wellness & Nutrition Project** is a Data Science-based college student wellness project focused primarily on understanding **mental wellness** and its relationships with nutrition, physical activity/mobility, and other relevant lifestyle factors.
+**Association among 3 factors of wellness**
 
-The project uses primary survey data collected from college students and will progressively evolve as concepts from the Fundamentals of Data Science course are introduced.
+## 1. Overview
 
-The scope is intentionally broad enough to support future statistical analysis, machine learning, pattern discovery, recommendation techniques, and application development while remaining centered on one coherent problem.
+This project investigates statistical associations among three dimensions of university student wellness:
 
----
+1. Mental wellbeing
+2. Physical wellbeing
+3. Nutritional wellbeing
 
-## 5.2 Target Population
+The study uses primary survey data and Data Science techniques to examine patterns, relationships, and differences among selected wellness and lifestyle variables.
 
-The target population for the project is:
-
-> **College students**
-
-The project does not currently impose a specific age range.
-
-The initial dataset consists of responses collected through a questionnaire distributed among college students.
-
-Any conclusions drawn from the dataset will consider the characteristics and limitations of the actual sample rather than automatically generalizing findings to all college students.
+The project is **exploratory, cross-sectional, and non-clinical**.
 
 ---
 
-## 5.3 Core Areas of Investigation
+## 2. Scope of Data Collection
 
-The project currently focuses on three major domains.
+The study uses 100 self-reported responses collected from university students between 14 and 18 August 2026.
 
-### 5.3.1 Mental Wellness
+The original dataset contains 22 survey columns, including demographic, mental-wellness, physical-activity, nutritional, and lifestyle variables.
 
-Mental wellness is the **primary area of interest**.
+### Included Variables
 
-The project aims to investigate patterns in students' self-reported mental-wellness information and examine how these patterns relate to other lifestyle characteristics.
+**Mental Wellbeing**
+- Stress and anxiety frequency
+- Racing thoughts
+- Concentration difficulties
+- Low motivation
+- Irritability and mental exhaustion
 
-Mental-wellness variables will be treated as indicators available within the collected survey data rather than as clinical diagnoses.
+**Physical Wellbeing**
+- Sleep duration
+- Academic and entertainment screen time
+- Walking activity and step count
+- Exercise frequency
+- Sitting duration
+- Evening physical energy
 
----
+**Nutritional Wellbeing**
+- Water intake
+- Meal regularity
+- Dietary food categories
+- Digestive discomfort
 
-### 5.3.2 Nutrition Intake
-
-Nutrition is a major lifestyle domain within the project.
-
-The project may investigate:
-
-* Dietary habits
-* Meal-related patterns
-* Food choices
-* Hydration-related behaviour
-* Other nutrition-related variables available in the survey
-
-Nutrition information may be analyzed independently and in relation to mental wellness, physical activity, sleep, and other lifestyle characteristics.
-
-The project will not diagnose nutritional deficiencies or prescribe clinical diets.
-
----
-
-### 5.3.3 Physical Activity and Mobility
-
-Physical activity and mobility form another important lifestyle domain.
-
-The project may investigate:
-
-* Physical activity levels
-* Exercise habits
-* Movement-related behaviour
-* Sedentary behaviour
-* Mobility-related information represented in the dataset
-
-These characteristics may be studied in relation to mental wellness, nutrition, and other lifestyle factors.
+**Supporting Variables**
+- Gender
+- Academic year
+- Living arrangement
+- Survey submission timestamp
 
 ---
 
-## 5.4 Supporting Lifestyle and Contextual Factors
+## 3. Scope of Data Preparation
 
-Additional variables may contribute to the overall analysis where they are available in the collected dataset.
+The project includes two stages of data cleaning.
 
-Examples may include:
+| Stage | Dataset | Work Completed |
+|---|---|---|
+| Initial cleaning | 100 × 25 | Standardization of sleep, entertainment screen time, and water intake |
+| Extended cleaning | 100 × 42 | Additional lifestyle processing, activity classification, dietary encoding, and text normalization |
 
-* Sleep
-* Daily routine
-* Academic or lifestyle characteristics
-* Relevant demographic information
-* Other contextual factors represented in the questionnaire
+### Included Preprocessing Operations
 
-These factors are not necessarily independent project modules.
+- Data inspection and variable classification
+- Missing-value identification
+- Duplicate detection
+- Rule-based numerical parsing
+- Unit normalization
+- Range midpoint conversion
+- IQR-based outlier treatment for selected variables
+- Median imputation
+- Categorical validation
+- Dietary multi-hot encoding
+- Activity inference and uncertainty classification
+- Free-text normalization
+- Data-integrity and transformation checks
 
-Instead, they may provide additional context for understanding relationships among mental wellness, nutrition, and physical activity.
+The original responses were retained for traceability.
 
----
-
-## 5.5 Data Scope
-
-The initial project dataset consists of **primary survey responses collected from college students**.
-
-Approximately 100 responses have currently been collected.
-
-The project will progressively address:
-
-* Data understanding
-* Variable documentation
-* Data quality
-* Missing information
-* Data cleaning
-* Data transformation
-* Data exploration
-* Data versioning
-* Feature management
-* Analysis-ready dataset creation
-
-A formal data dictionary will be created after the dataset is inspected.
-
-Raw data will be preserved separately from cleaned and processed data.
-
-Additional data sources may be considered later if they provide a meaningful and justified contribution to the project.
+Ambiguous activity measurements were documented rather than automatically assigned unsupported units.
 
 ---
 
-## 5.6 Analytical Scope
+## 4. Scope of Statistical Analysis
 
-The project is intended to support multiple levels of Data Science analysis.
+The project includes:
 
-### Descriptive Analysis
+### Exploratory Data Analysis
 
-Understand the characteristics and distributions present in the student survey data.
+- Frequency distributions
+- Descriptive statistics
+- Group comparisons
+- Statistical visualizations
 
-### Diagnostic Analysis
+### Hypothesis Testing
 
-Investigate relationships and associations among mental wellness, nutrition, physical activity, and other relevant variables.
+- F-test for comparing entertainment screen-time variances by gender
+- Independent two-sample t-test for comparing entertainment screen-time means by gender
+- One-sample Z-test approximation comparing mean sleep duration with 7 hours
+- Chi-square test examining gender and meal regularity
 
-### Statistical Analysis
+### Correlation and Regression
 
-Apply appropriate probability and statistical techniques as they are introduced in the course.
+- Pearson correlation analysis
+- Simple linear regression between sleep duration and evening physical energy
 
-### Predictive Analysis
+### Data Quality Assessment
 
-Explore meaningful prediction tasks if suitable target variables can be identified.
+Eight dimensions were assessed using the initial cleaned dataset:
 
-### Pattern and Profile Discovery
+1. Completeness
+2. Validity
+3. Consistency
+4. Uniqueness
+5. Accuracy
+6. Timeliness
+7. Integrity
+8. Relevance
 
-Investigate whether meaningful student wellness or lifestyle profiles can be discovered using appropriate analytical or unsupervised-learning techniques.
+Additional validation was conducted during extended cleaning.
 
-### Prescriptive Analysis
+### Multivariate Analysis
 
-Explore how validated analytical findings may eventually support personalized general wellness insights.
+**Principal Component Analysis (PCA)**
 
----
+Applied to ten numerical features to investigate dimensionality reduction.
 
-## 5.7 Data Science and Machine Learning Scope
+Eight principal components retained approximately 92.73% of total variance.
 
-As the project progresses, appropriate Data Science and machine-learning techniques may be explored.
+**Linear Discriminant Analysis (LDA)**
 
-Potential areas include:
+Implemented as an exploratory two-class classification experiment using selected lifestyle variables.
 
-* Probability and statistics
-* Correlation and covariance
-* Sampling and estimation
-* Hypothesis testing
-* ANOVA
-* Data visualization
-* Feature extraction
-* Feature construction
-* Feature selection
-* Dimensionality reduction
-* Regression
-* Classification
-* Decision Trees
-* Random Forest
-* Support Vector Machines
-* k-Nearest Neighbors
-* Clustering
-* Principal Component Analysis
-* t-SNE
-* Association rule mining
-* Anomaly detection
-* Model evaluation
-* Recommendation techniques
-
-These techniques are **within the learning and experimental scope of the project**.
-
-However, inclusion in this section does not mean that every technique must become part of the final application.
-
-Each technique will be evaluated for its suitability to the available data and analytical problem.
+The model achieved 68% test accuracy but showed weak detection of the higher-stress-frequency class.
 
 ---
 
-## 5.8 Data Engineering Scope
+## 5. Scope of Implementation
 
-As relevant concepts are introduced, the project may progressively include:
+The project was implemented using Python and supporting Data Science libraries.
 
-* Data extraction
-* Data ingestion
-* Data cleaning
-* Data exploration
-* Data wrangling
-* Data transformation
-* Dataset versioning
-* Feature management
-* Data pipeline design
-* Data cataloging concepts
-* Relational database usage
-* Batch-processing concepts
-* Streaming-ingestion concepts
-* Data warehouse, data lake, and cloud concepts
+The work includes:
 
-Some of these topics may be implemented directly where appropriate.
+- Data processing and feature engineering
+- Statistical computations
+- Mathematical PCA and LDA implementations
+- Library-based verification
+- Visualization
+- Notebook-based documentation
+- Academic reports
+- GitHub version control
 
-Others may be represented through architectural analysis or scalability considerations if implementing them would not be meaningful for the size and nature of the project.
+The project follows the CRISP-DM framework.
 
-The project will not artificially create unnecessary infrastructure simply to claim that a technology was used.
+For this academic submission, the final delivery consists of analytical code, processed data, results, and documentation.
 
 ---
 
-## 5.9 Personalized Wellness Guidance
+## 6. Out-of-Scope Components
 
-A future objective of the project is to explore personalized and explainable **general wellness guidance**.
+The following are not part of the completed project:
 
-Potential guidance may relate to:
+- Clinical diagnosis of mental-health conditions
+- Personalized medical or nutritional prescriptions
+- Real-time student wellness monitoring
+- Production web or mobile application development
+- Wearable-device integration
+- Automated clinical risk assessment
+- Causal inference from the survey
+- Longitudinal tracking of individual students
+- Deployment of a production prediction service
+- K-Means clustering or other unimplemented algorithms
 
-* Nutrition and dietary habits
-* Physical activity
-* Sleep and routine
-* General lifestyle behaviours associated with wellness
-
-The recommendation mechanism has not yet been finalized.
-
-It may eventually incorporate analytical findings, student profiles, recommendation techniques, and carefully selected external wellness knowledge.
-
-Any external guidance source used by the system should be documented and appropriately credible.
-
-Recommendations will remain educational and general wellness-oriented.
+These components should not be described as completed features.
 
 ---
 
-## 5.10 Application Scope
+## 7. Project Deliverables
 
-Later stages of the project may integrate the analytical components into an interactive application.
+The project deliverables include:
 
-A future application may allow students to:
+1. Original survey dataset and classification records.
+2. Initial cleaned dataset and statistical-analysis code.
+3. Extended cleaned dataset and cleaning audit.
+4. Data Quality Assessment, PCA, and LDA notebook.
+5. Extended data-cleaning notebook.
+6. Statistical visualizations.
+7. Final project report.
+8. Technical project documentation.
+9. Supporting technical reports.
+10. GitHub repository containing approved project artifacts.
 
-* Provide relevant wellness and lifestyle information
-* Receive an understandable representation of their profile
-* View relevant patterns or analytical findings
-* Understand factors contributing to generated results
-* Receive personalized general wellness insights
-
-The exact interface, software architecture, deployment platform, and technology stack have not yet been finalized.
-
-The application will be designed around the Data Science components rather than determining the analysis based on a predetermined application design.
-
----
-
-## 5.11 Explainability Scope
-
-Explainability is considered an important project requirement.
-
-Where appropriate, the system should communicate:
-
-* What was observed
-* Which variables were involved
-* Which factors contributed to an analytical result
-* How reliable or uncertain a result may be
-* Why a particular insight or recommendation is being presented
-* What limitations apply
-
-This is especially important because the project involves mental-wellness and lifestyle information.
+Row-level survey data should only be published where sharing is authorized and appropriate.
 
 ---
 
-## 5.12 DataOps and MLOps Scope
+## 8. Limitations
 
-DataOps and introductory MLOps concepts may progressively support project organization and reproducibility.
+### Sampling Limitations
 
-Potential practices include:
+The sample contains 100 self-selected respondents and may not represent the wider university student population.
 
-* Structured repository organization
-* Dataset versioning
-* Reproducible preprocessing
-* Reusable source code
-* Experiment documentation
-* Model versioning
-* Evaluation tracking
-* Reproducible analytical workflows
+### Measurement Limitations
 
-The level of implementation will remain appropriate to the scale of the project.
+Survey responses are self-reported and may contain recall errors, inaccurate estimates, or ambiguous measurement units.
 
----
+### Data Processing Limitations
 
-## 5.13 R and Data Analysis Tools
+Range midpoint conversion, outlier treatment, and median imputation introduce assumptions.
 
-The project may use **R** for appropriate statistical and data-analysis tasks as the relevant course unit is introduced.
+Some physical-activity responses remain uncertain and are not directly comparable.
 
-R-based analysis may complement analysis performed using other tools.
+### Analytical Limitations
 
-The objective is to demonstrate meaningful application of the course material rather than duplicate every analysis unnecessarily across multiple programming languages.
+The study is cross-sectional and supports association rather than causation.
+
+Some ordinal ratings were treated numerically for exploratory analysis.
+
+The LDA classifier demonstrated limited predictive performance.
 
 ---
 
-## 5.14 Current Core Scope
+## 9. Future Scope
 
-At the present stage, the immediate scope is limited to:
+Potential future extensions include:
 
-1. Finalizing the revised project foundation.
-2. Documenting the survey and collected variables.
-3. Understanding the approximately 100 collected responses.
-4. Creating a data dictionary.
-5. Identifying data-quality issues.
-6. Preparing for future cleaning and analysis.
+- Collecting a larger and more representative dataset.
+- Improving survey design and input validation.
+- Separating step counts, walking duration, and walking distance into distinct survey questions.
+- Investigating additional associations among dietary and physical-activity variables.
+- Exploring further multivariate techniques.
+- Collecting longitudinal data.
+- Improving model evaluation and preprocessing reproducibility.
 
-Advanced statistical analysis, machine learning, recommendation systems, and application development remain **future stages**.
-
----
-
-## 5.15 Future Expansion
-
-The project architecture is intentionally designed to allow expansion as the course progresses.
-
-Potential future capabilities include:
-
-```text id="53xdwa"
-Student Input
-      ↓
-Wellness Profile
-      ↓
-Mental Wellness Analysis
-      +
-Nutrition Analysis
-      +
-Physical Activity Analysis
-      ↓
-Cross-Domain Pattern Analysis
-      ↓
-Predictive / Profile Analysis
-      ↓
-Explainable Insights
-      ↓
-Personalized General Wellness Guidance
-```
-
-Additional features may be introduced if they strengthen the central project objective and can be supported by appropriate data and methods.
+These are future possibilities, not completed implementations.
 
 ---
 
-## 5.16 Out-of-Scope Areas
+## 10. Conclusion
 
-The project is **not intended to**:
+The scope of **Association among 3 factors of wellness** is limited to investigating statistical relationships among mental, physical, and nutritional wellbeing using self-reported university student data.
 
-* Diagnose mental-health disorders
-* Diagnose depression, anxiety, eating disorders, or other clinical conditions
-* Diagnose nutritional deficiencies
-* Provide psychological or psychiatric treatment
-* Prescribe medication
-* Provide medical nutrition therapy
-* Prescribe therapeutic diets
-* Replace qualified medical, mental-health, or nutrition professionals
-* Make unsupported causal claims from observational data
-* Present machine-learning predictions as clinical diagnoses
+The project demonstrates practical applications of data collection, preprocessing, exploratory analysis, statistical testing, regression, data quality assessment, PCA, and LDA.
 
-The project will remain within **Data Science, educational analysis, and general wellness-support boundaries**.
-
----
-
-## 5.17 Scope Management Principle
-
-New technologies or techniques should not be added simply because they appear impressive.
-
-A proposed addition should answer at least one of the following questions:
-
-> **Does it help us understand the collected student data?**
-
-> **Does it help us investigate the relationship between lifestyle and mental wellness?**
-
-> **Does it improve the quality, reliability, explainability, or reproducibility of our analysis?**
-
-> **Does it meaningfully improve the eventual student wellness experience?**
-
-> **Does it allow us to appropriately demonstrate an important FDS concept?**
-
-If the answer to all of these is no, the feature should probably not be added.
-
----
-
-## 5.18 Summary
-
-The project scope can currently be summarized as:
-
-> **Collect college-student wellness data → understand and prepare the data → analyze mental wellness and its relationships with nutrition, physical activity, and lifestyle → discover meaningful patterns → progressively apply Data Science techniques → generate explainable insights → eventually support personalized general wellness guidance.**
-
-This scope provides enough flexibility for the project to grow throughout the semester while maintaining a consistent central objective.
+Its findings describe patterns within the collected sample and should not be interpreted as causal or clinical conclusions.
