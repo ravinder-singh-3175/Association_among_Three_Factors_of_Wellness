@@ -1,219 +1,107 @@
-# Problem Definition
+# 01 — Problem Definition
 
-## 1.1 Background
+## Project Title
 
-College life introduces students to significant changes in routine, academic workload, independence, dietary habits, sleep patterns, social environment, and physical activity.
+**Association among 3 factors of wellness**
 
-These factors can influence students' overall well-being and may also be associated with differences in their mental wellness.
+## 1. Background
 
-Among these factors, **nutrition and physical activity are particularly important lifestyle components**. Irregular eating habits, inadequate dietary patterns, reduced physical activity, poor sleep, and other lifestyle behaviours may occur together with variations in students' self-reported mental wellness.
+University students experience various lifestyle challenges, including academic stress, irregular sleep patterns, prolonged screen exposure, inconsistent dietary habits, and limited physical activity.
 
-However, these relationships are complex and should not be assumed without examining actual data.
+Mental, physical, and nutritional wellbeing are interconnected aspects of student life. Understanding the statistical associations among these factors can provide useful insights into student wellness patterns.
 
-The **Mental Wellness & Nutrition Project** aims to use Data Science to study these relationships using primary survey data collected from college students.
+This project investigates these relationships using primary survey data and Data Science techniques.
 
----
+## 2. Problem Statement
 
-## 1.2 Problem Statement
+**How are mental, physical, and nutritional wellbeing factors associated among university students, and which lifestyle characteristics are related to higher reported stress and lower physical energy?**
 
-The central problem addressed by this project is:
+The study aims to identify patterns and associations within the collected student sample.
 
-> **How can Data Science be used to analyze mental wellness, nutrition intake, physical activity, and related lifestyle characteristics among college students in order to identify meaningful patterns and support personalized wellness insights?**
+## 3. Three Factors of Wellness
 
-The project will investigate how different lifestyle characteristics are associated with students' self-reported mental wellness.
+### Mental Wellbeing
 
-Particular attention will be given to:
+Measured using five self-reported rating variables:
 
-* Mental wellness indicators
-* Nutrition and dietary habits
-* Physical activity and mobility
-* Sleep and daily routine
-* Other relevant lifestyle or contextual variables available in the collected dataset
+- Stress and anxiety
+- Racing thoughts and repetitive worry
+- Concentration difficulties
+- Low motivation
+- Irritability and mental exhaustion
 
-The project will focus on identifying relationships supported by the collected data rather than beginning with predetermined conclusions.
+### Physical Wellbeing
 
----
+Examined through:
 
-## 1.3 Existing Gap
+- Sleep duration
+- Academic and entertainment screen time
+- Walking activity and exercise frequency
+- Consecutive sitting duration
+- Evening physical energy
 
-Students receive large amounts of general wellness advice regarding nutrition, exercise, sleep, stress management, and healthy routines.
+### Nutritional Wellbeing
 
-However, such advice is often presented independently rather than considering how different aspects of a student's lifestyle may interact.
+Examined through:
 
-For example, two students may report similar mental-wellness experiences while having very different:
+- Daily water intake
+- Meal regularity
+- Dietary food categories
+- Digestive discomfort
 
-* Dietary habits
-* Physical activity levels
-* Sleep patterns
-* Daily routines
-* Lifestyle behaviours
+## 4. Research Questions
 
-Similarly, students with comparable nutrition or activity patterns may still report different wellness outcomes.
+1. What patterns of mental, physical, and nutritional wellbeing are observed among university students?
+2. How are sleep duration and evening physical energy associated?
+3. Does entertainment screen time differ between student groups?
+4. Is meal regularity associated with gender?
+5. What relationships exist among stress, lifestyle factors, and physical energy?
+6. Can dimensionality reduction and discriminant analysis reveal useful patterns in selected wellness variables?
 
-This creates an opportunity to use Data Science to examine multiple wellness-related factors together and identify patterns that may not be obvious when each factor is considered separately.
+## 5. Project Objectives
 
----
+The project aims to:
 
-## 1.4 Proposed Approach
+1. Collect and understand primary student wellness data.
+2. Identify variable types, measurement scales, and data quality issues.
+3. Clean and standardize mixed-format survey responses.
+4. Perform exploratory and descriptive statistical analysis.
+5. Apply hypothesis testing and regression to investigate associations.
+6. Evaluate data quality across eight dimensions.
+7. Implement PCA and LDA using mathematical methods.
+8. Interpret findings while acknowledging methodological limitations.
 
-The project will use primary survey data collected from college students.
+## 6. Dataset and Scope
 
-The current conceptual workflow is:
+The study uses 100 self-reported university student survey responses collected between 14 and 18 August 2026.
 
-```text
-College Student Survey Data
-            │
-            ▼
-      Data Understanding
-            │
-            ▼
- Data Cleaning & Preparation
-            │
-            ▼
- ┌──────────┼──────────┐
- ▼          ▼          ▼
-Mental   Nutrition   Physical
-Wellness   Intake    Activity
-            │
-            ▼
-    Integrated Analysis
-            │
-            ▼
- Statistical & Data Science
-          Methods
-            │
-            ▼
- Patterns / Relationships /
-     Student Profiles
-            │
-            ▼
- Explainable Wellness Insights
-            │
-            ▼
- Personalized General
-   Wellness Guidance
-```
+The dataset evolved through three stages:
 
-The exact statistical techniques, predictive targets, machine-learning algorithms, and recommendation methods will be selected progressively as the dataset is explored and relevant concepts are learned in the Fundamentals of Data Science course.
+| Dataset Stage | Dimensions |
+|---|---|
+| Original survey | 100 × 22 |
+| Initial cleaned dataset | 100 × 25 |
+| Extended cleaned dataset | 100 × 42 |
 
----
+The research is cross-sectional, exploratory, and non-clinical.
 
-## 1.5 Primary Area of Interest
+It investigates associations rather than causal relationships and does not attempt to diagnose medical or mental-health conditions.
 
-Although the project includes multiple wellness-related domains, **mental wellness is the primary area of interest**.
+## 7. Expected Contribution
 
-Nutrition intake and physical activity are treated as important lifestyle domains that may have meaningful relationships with mental wellness.
+The project demonstrates how Data Science methods can be applied to student wellness data through:
 
-Other variables such as sleep, routine, and contextual factors may also be considered where they are available in the dataset.
+- Systematic preprocessing and feature engineering.
+- Exploratory analysis and statistical hypothesis testing.
+- Correlation and regression analysis.
+- Data quality evaluation.
+- Mathematical implementation of PCA and LDA.
+- Interpretation of results and limitations.
 
-The project therefore does not treat mental wellness, nutrition, and physical activity as completely independent components.
+The intended contribution is an evidence-based description of patterns within the collected sample, not a clinical prediction system.
 
-Instead, it aims to investigate their possible **interrelationships within the overall lifestyle and wellness profile of college students**.
+## 8. Limitations
 
----
+The study is limited by its sample size, self-reported measurements, cross-sectional design, and potentially ambiguous survey responses.
 
-## 1.6 Data-Driven Investigation
-
-A key principle of the project is that conclusions should emerge from analysis rather than assumptions.
-
-For example, the project may investigate questions such as:
-
-* Are particular dietary habits associated with differences in self-reported mental wellness?
-* Are physical activity levels associated with mental-wellness indicators?
-* Are sleep patterns related to mental wellness or dietary behaviour?
-* Are certain combinations of lifestyle behaviours frequently observed together?
-* Do naturally occurring wellness profiles exist among the surveyed students?
-* Which variables appear to be most informative when studying particular wellness outcomes?
-
-These are **research questions**, not predetermined conclusions.
-
-The collected data will determine whether meaningful relationships exist.
-
----
-
-## 1.7 Association and Causation
-
-The project primarily uses observational, self-reported survey data.
-
-Therefore, an important analytical boundary is:
-
-> **Association does not automatically imply causation.**
-
-For example, if a relationship is observed between dietary habits and mental wellness, this does not by itself prove that one variable directly caused changes in the other.
-
-The project will clearly distinguish between:
-
-* Observed patterns
-* Statistical associations
-* Predictive relationships
-* Causal claims
-
-Causal claims will not be made unless they are supported by an appropriate research design and evidence.
-
----
-
-## 1.8 Real-World Relevance
-
-College students frequently experience changes in eating habits, physical activity, sleep, routine, academic workload, and general well-being.
-
-Understanding how these factors appear together within a student population may provide useful insights into student lifestyle and wellness patterns.
-
-A Data Science-based approach can help:
-
-* Summarize wellness characteristics within the surveyed population
-* Discover relationships between lifestyle variables
-* Compare groups where appropriate
-* Identify recurring behavioural patterns
-* Explore student wellness profiles
-* Evaluate predictive relationships where justified
-* Eventually support understandable and personalized general wellness insights
-
-This makes the project suitable for progressively applying statistical and Data Science concepts to a real-world dataset.
-
----
-
-## 1.9 Project Boundaries
-
-The **Mental Wellness & Nutrition Project** is an educational Data Science and general wellness project.
-
-It is **not intended to**:
-
-* Diagnose depression, anxiety, or other mental-health disorders
-* Diagnose nutritional deficiencies
-* Diagnose eating disorders
-* Provide psychological or psychiatric treatment
-* Prescribe medication
-* Provide individualized medical nutrition therapy
-* Prescribe therapeutic or medically restricted diets
-* Replace doctors, psychologists, psychiatrists, dietitians, nutrition professionals, or other qualified healthcare professionals
-* Treat statistical associations as proof of causation
-* Present machine-learning predictions as medical diagnoses
-
-The project will instead focus on:
-
-* Data analysis
-* Statistical investigation
-* Pattern discovery
-* Lifestyle and wellness profiling
-* Explainable analytical insights
-* General educational wellness guidance
-
-Any future personalized recommendations will remain within appropriate **general wellness and educational boundaries**.
-
----
-
-## 1.10 Current Stage
-
-The project is currently in its **problem redefinition and initial data-understanding stage**.
-
-At present:
-
-* The target population has been defined as college students.
-* The primary area of interest is mental wellness.
-* Nutrition intake and physical activity/mobility are major lifestyle domains being investigated.
-* A survey questionnaire has already been created.
-* Approximately 100 responses have been collected.
-* The dataset has not yet been formally cleaned or analyzed.
-* No statistical or machine-learning conclusions are currently being claimed.
-
-The project will evolve progressively as the Fundamentals of Data Science course advances and the collected dataset is better understood.
+Consequently, findings cannot be generalized automatically to all university students or interpreted as proof of causation.
