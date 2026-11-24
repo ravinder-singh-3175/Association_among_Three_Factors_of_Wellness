@@ -1,254 +1,144 @@
-# Project Objectives
+# 02 — Project Objectives
 
-## 2.1 Primary Objective
+## Project Title
 
-The primary objective of the **Mental Wellness & Nutrition Project** is to use Data Science to analyze mental wellness and lifestyle-related characteristics among college students, with particular emphasis on **nutrition intake and physical activity/mobility**, and to progressively develop a system capable of generating meaningful, explainable, and personalized general wellness insights.
+**Association among 3 factors of wellness**
 
-The project will use primary survey data collected from college students and will evolve progressively as relevant concepts are introduced in the Fundamentals of Data Science course.
+## 1. Primary Objective
 
----
+To investigate statistical associations among **mental, physical, and nutritional wellbeing** among university students using self-collected survey data and Data Science techniques.
 
-## 2.2 Supporting Objectives
+The project focuses on understanding patterns, examining relationships, and interpreting results rather than developing a clinical diagnostic system.
 
-### 1. Collect Relevant Student Wellness Data
+## 2. Specific Objectives
 
-Collect primary data from college students using a structured questionnaire covering relevant areas such as:
+### Objective 1 — Data Collection and Understanding
 
-* Mental wellness
-* Nutrition and dietary habits
-* Physical activity and mobility
-* Sleep and daily routine
-* Other relevant lifestyle and contextual characteristics
+- Collect primary survey data from university students.
+- Examine demographic, mental wellness, physical activity, nutrition, and lifestyle variables.
+- Identify variable types and measurement scales.
+- Understand the dataset's structure and limitations.
 
-The collected responses will form the initial dataset for the project.
+**Completed:** 100 survey responses containing 22 original variables.
 
----
+### Objective 2 — Data Cleaning and Preprocessing
 
-### 2. Understand and Document the Dataset
+- Identify missing, inconsistent, and unusual responses.
+- Standardize numerical measurements and units.
+- Apply appropriate outlier detection and missing-value treatment.
+- Process mixed-format physical activity responses.
+- Encode multi-select dietary categories.
+- Preserve original responses for traceability.
 
-Study the collected survey data to understand:
+**Completed:** Initial cleaning produced 25 columns, followed by extended preprocessing resulting in 42 columns.
 
-* Available variables
-* Data types
-* Response categories
-* Missing or incomplete information
-* Possible data-quality issues
-* Relationships between questionnaire items and the project's major domains
+### Objective 3 — Exploratory Data Analysis
 
-A formal data dictionary will be developed as the dataset is prepared.
+- Calculate descriptive statistics.
+- Examine response distributions and group differences.
+- Generate appropriate statistical visualizations.
+- Identify preliminary relationships among wellness variables.
 
----
+**Completed:** Frequency analysis, descriptive statistics, boxplots, bar charts, correlation heatmaps, and scatter plots.
 
-### 3. Prepare the Data for Analysis
+### Objective 4 — Statistical Hypothesis Testing
 
-Apply appropriate data preparation techniques as required, including:
+Apply statistical tests to investigate specific research questions.
 
-* Data cleaning
-* Handling missing values
-* Detecting possible outliers or unusual responses
-* Encoding categorical variables
-* Data transformation
-* Data validation
+| Statistical Test | Research Objective |
+|---|---|
+| F-test | Compare entertainment screen-time variances by gender |
+| Independent two-sample t-test | Compare mean entertainment screen time by gender |
+| One-sample Z-test | Compare average sleep duration against a 7-hour reference |
+| Chi-square test | Investigate the association between gender and meal regularity |
 
-Raw data will be preserved separately from cleaned and processed versions.
+**Completed:** All four procedures were implemented and interpreted.
 
----
+### Objective 5 — Correlation and Regression
 
-### 4. Perform Exploratory Data Analysis
+- Examine correlations among selected wellness variables.
+- Apply simple linear regression to investigate the relationship between sleep duration and evening physical energy.
+- Interpret the direction and strength of relationships.
+- Distinguish statistical association from causation.
 
-Explore the collected data using descriptive statistics and visualizations to understand the characteristics of the surveyed college-student population.
+**Completed:** Simple linear regression and Pearson correlation analysis.
 
-Potential areas of exploration include:
+### Objective 6 — Data Quality Assessment
 
-* Mental-wellness response patterns
-* Nutrition and dietary behaviours
-* Physical activity patterns
-* Sleep and lifestyle characteristics
-* Relationships among different variables
+Evaluate the dataset across eight dimensions:
 
-The exact analyses will depend on the available dataset.
+1. Completeness
+2. Validity
+3. Consistency
+4. Uniqueness
+5. Accuracy
+6. Timeliness
+7. Integrity
+8. Relevance
 
----
+**Completed:** Eight-dimensional assessment of the initial cleaned dataset, with additional validation performed during extended cleaning.
 
-### 5. Investigate Statistical Relationships
+### Objective 7 — Principal Component Analysis
 
-Use appropriate statistical techniques to investigate relationships within the collected data.
+- Standardize selected numerical features.
+- Calculate covariance matrices, eigenvalues, and eigenvectors.
+- Perform dimensionality reduction.
+- Examine explained variance.
+- Verify the mathematical implementation using scikit-learn.
 
-Potential investigations may include relationships between:
+**Completed:** PCA reduced 10 features to 8 principal components while retaining approximately 92.73% of the variance.
 
-* Nutrition and mental wellness
-* Physical activity and mental wellness
-* Sleep and mental wellness
-* Nutrition and physical activity
-* Other relevant lifestyle variables
+### Objective 8 — Linear Discriminant Analysis
 
-Statistical associations will not automatically be interpreted as causal relationships.
+- Define exploratory stress-frequency classes.
+- Calculate within-class and between-class scatter matrices.
+- Implement discriminant analysis mathematically.
+- Evaluate classification performance.
+- Compare manual predictions with scikit-learn.
 
----
+**Completed:** LDA achieved 68% test accuracy and approximately 53.31% balanced accuracy, indicating limited classification performance.
 
-### 6. Apply Relevant Data Science Techniques
+### Objective 9 — Documentation and Reproducibility
 
-As the Fundamentals of Data Science course progresses, apply appropriate techniques taught in the syllabus to the project.
+- Maintain organized project files and notebooks.
+- Document preprocessing decisions and statistical methods.
+- Preserve original data and derived outputs appropriately.
+- Prepare technical reports and project documentation.
+- Maintain the project repository on GitHub.
 
-These may include:
+## 3. Expected Outcomes
 
-* Probability and statistical analysis
-* Sampling and estimation
-* Hypothesis testing
-* Correlation and covariance
-* ANOVA
-* Data visualization
-* Feature engineering
-* Regression
-* Classification
-* Clustering
-* Dimensionality reduction
-* Association rule mining
-* Anomaly detection
-* Model evaluation
+The project aims to produce:
 
-Techniques will be used where they have a meaningful analytical role rather than being included only for the purpose of demonstrating an algorithm.
+- A documented student wellness dataset and preprocessing workflow.
+- Descriptive summaries of mental, physical, and nutritional wellbeing.
+- Statistical evidence of selected associations.
+- Visual representations of observed patterns.
+- A systematic data-quality assessment.
+- Mathematical implementations of PCA and LDA.
+- Reproducible code and academic documentation.
 
----
+## 4. Scope and Boundaries
 
-### 7. Explore Student Wellness Profiles
+The study is based on 100 self-selected, self-reported survey responses collected between 14 and 18 August 2026.
 
-Investigate whether meaningful patterns or groups of students can be identified from combinations of mental-wellness, nutrition, physical-activity, and lifestyle characteristics.
+Its findings describe associations within this sample and should not be generalized automatically to all university students.
 
-Later stages of the project may use appropriate unsupervised-learning techniques to explore whether naturally occurring student wellness profiles exist within the collected data.
+The project does not establish causation, provide medical diagnoses, or claim reliable individual mental-health prediction.
 
-Any resulting profiles will be interpreted carefully and will not be treated as medical or psychological diagnoses.
+## 5. Objective Completion Summary
 
----
+| Project Area | Status |
+|---|---|
+| Data collection and understanding | Completed |
+| Initial and extended cleaning | Completed |
+| Exploratory data analysis | Completed |
+| Hypothesis testing | Completed |
+| Correlation and regression | Completed |
+| Data quality assessment | Completed |
+| PCA | Completed |
+| LDA | Completed |
+| Technical documentation | Completed |
+| GitHub final integration | In progress |
 
-### 8. Explore Predictive Relationships
-
-Investigate whether available student lifestyle characteristics can support meaningful predictive tasks.
-
-The exact prediction target will **not be predetermined**.
-
-A suitable target will only be selected after:
-
-* Understanding the dataset
-* Performing exploratory analysis
-* Studying relevant statistical relationships
-* Reaching the appropriate machine-learning stage of the course
-
-Multiple suitable models may be experimentally compared where appropriate.
-
----
-
-### 9. Develop Personalized Wellness Insights
-
-Explore methods for transforming analytical findings and student wellness profiles into understandable and personalized general wellness insights.
-
-Potential guidance may relate to:
-
-* Nutrition and dietary habits
-* Physical activity
-* Sleep and routine
-* General mental-wellness-supporting lifestyle behaviours
-
-Recommendations will remain educational and wellness-oriented and will not constitute medical, psychological, psychiatric, or clinical nutritional advice.
-
----
-
-### 10. Maintain Explainability
-
-Ensure that analytical findings, model outputs, profiles, and future recommendations can be explained in understandable terms.
-
-Where possible, the system should help answer questions such as:
-
-* What pattern was identified?
-* Which information contributed to the result?
-* What does the result mean?
-* What are the limitations of the result?
-
----
-
-### 11. Develop the Project Progressively
-
-Develop the project incrementally according to the progression of the Fundamentals of Data Science course.
-
-The project should demonstrate genuine development through stages such as:
-
-```text
-Problem Understanding
-        ↓
-Data Collection
-        ↓
-Data Understanding
-        ↓
-Data Preparation
-        ↓
-Exploratory & Statistical Analysis
-        ↓
-Feature Engineering
-        ↓
-Modeling & Pattern Discovery
-        ↓
-Evaluation
-        ↓
-Personalized Insights
-        ↓
-Application Development
-```
-
-Advanced techniques will not be implemented prematurely.
-
----
-
-## 2.3 Data Science Learning Objectives
-
-In addition to addressing the project problem, this project aims to provide practical experience in applying Data Science concepts to a real-world dataset.
-
-The learning objectives include:
-
-* Understanding the complete Data Science lifecycle
-* Applying Data Science methodologies to a real project
-* Working with primary survey data
-* Understanding data quality and preparation
-* Applying probability and statistical reasoning
-* Performing exploratory and diagnostic analysis
-* Developing meaningful features
-* Experimenting with supervised and unsupervised learning
-* Comparing and evaluating analytical techniques
-* Discovering patterns and associations
-* Understanding recommendation-system concepts
-* Applying DataOps and introductory MLOps principles where appropriate
-* Using R and other relevant Data Science tools
-* Communicating findings responsibly and clearly
-
----
-
-## 2.4 Expected Outcome
-
-By the end of the semester, the project aims to demonstrate how a real college-student wellness dataset can progress through multiple stages of the Data Science lifecycle.
-
-The expected final system may be capable of:
-
-1. Accepting or analyzing relevant student wellness and lifestyle information.
-2. Representing information across mental wellness, nutrition, physical activity, and related lifestyle dimensions.
-3. Identifying meaningful statistical relationships and patterns.
-4. Exploring or identifying student wellness profiles.
-5. Applying appropriate predictive or pattern-discovery techniques where justified.
-6. Producing understandable and explainable analytical results.
-7. Providing personalized **general wellness insights** based on the available information and validated project logic.
-
-The exact final architecture will remain flexible and will evolve according to the collected data, analytical findings, course progression, and evaluation of the techniques used.
-
----
-
-## 2.5 Success Criteria
-
-The project will be considered successful if it:
-
-* Uses the collected student data responsibly and meaningfully.
-* Demonstrates a clear progression through relevant Data Science stages.
-* Applies statistical and analytical techniques appropriately.
-* Uses course concepts in technically justified roles.
-* Produces reproducible and understandable analyses.
-* Clearly communicates limitations and uncertainty.
-* Avoids unsupported causal or medical claims.
-* Integrates mental wellness, nutrition, and physical activity into one coherent analytical framework.
-* Progresses toward useful and explainable personalized wellness insights.
+The project has completed its principal analytical objectives. Final repository organization and submission verification remain part of the concluding workflow.
